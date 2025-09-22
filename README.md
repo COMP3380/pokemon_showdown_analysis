@@ -2,6 +2,14 @@
 
 # For Developers
 
+## Documentation
+
+- [Smogun Stats](https://www.smogon.com/stats/)
+- [Pyrope Stats](https://pyrope.net/mon/stats/)
+- [Turn Smogun stats chaos json files in SQLite databases](https://git.pyrope.net/mbk/smogon-stats) 
+- [Understanding CUTOFF in Smogun stats](https://www.smogon.com/forums/threads/weighted-stats-faq.3478570/)
+- [Example Project](https://www.porydex.com/)
+
 ## Branches
 
 - The main branch is, well, the main branch
@@ -27,4 +35,7 @@ To see the task board of all issues/tasks, navigate to Projects -> Group Project
 
 - DO NOT assign more than one task to yourself at a time
     - unless there are multiple small ones you can complete at once
+    - this is so that other people have more flexibility to choose tasks
 - DO once you've assigned yourself a task, drag it into the "In Progress" column
+
+
