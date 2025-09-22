@@ -1,1 +1,30 @@
-# group_project
+# COMP 3380 Pokemon Showdown Group Project
+
+# For Developers
+
+## Branches
+
+- The main branch is, well, the main branch
+- Do NOT commit directly to main unless the change is insignificant
+- DO create a task branch to resolve a specific issue
+- DO make a merge request for that branch to merge into main
+    - If unsure about changes, request a reviewer
+- DO when making a merge request, reference the issue it completes
+
+## Issues
+
+Issues will serve as tasks for us to distribute and complete.
+
+- DO make issue an adequate size (not too big that it cannot be finished in like whole day)
+- DO tag our "Group Project" project in the issue, so it gets added to the tracker
+- DO add adequate information about the task/issue in the description AND title.
+    - how to replicate, steps to take, what's currently happening, how it should be
+- DO add a label, and type to the issue
+- DO after creating the issue, add a status for it in the Group Project.
+    - Typically the "Todo" status
+
+To see the task board of all issues/tasks, navigate to Projects -> Group Project
+
+- DO NOT assign more than one task to yourself at a time
+    - unless there are multiple small ones you can complete at once
+- DO once you've assigned yourself a task, drag it into the "In Progress" column
