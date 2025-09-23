@@ -5,7 +5,6 @@
 ## Documentation
 
 - [Smogun Stats](https://www.smogon.com/stats/)
-- [Pyrope Stats](https://pyrope.net/mon/stats/)
 - [Turn Smogun stats chaos json files in SQLite databases](https://git.pyrope.net/mbk/smogon-stats) 
 - [Understanding CUTOFF in Smogun stats](https://www.smogon.com/forums/threads/weighted-stats-faq.3478570/)
 - [Example Project](https://www.porydex.com/)
@@ -27,7 +26,8 @@ Issues will serve as tasks for us to distribute and complete.
 - DO tag our "Group Project" project in the issue, so it gets added to the tracker
 - DO add adequate information about the task/issue in the description AND title.
     - how to replicate, steps to take, what's currently happening, how it should be
-- DO add a label, and type to the issue
+- DO add a type to the issue
+- DO set the proper milestone (stage) for the issue
 - DO after creating the issue, add a status for it in the Group Project.
     - Typically the "Todo" status
 
