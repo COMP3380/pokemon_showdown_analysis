@@ -13,7 +13,7 @@ pip install -r requirements.txt
 python3 main.py
 ```
 
-Then navigate to [](http://localhost:8000/) to see the app
+Then navigate to [http://localhost:8000/](http://localhost:8000/) to see the app
 
 ## Documentation
 
