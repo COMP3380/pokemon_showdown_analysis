@@ -2,6 +2,19 @@
 
 # For Developers
 
+## Running the ReactPy App
+
+Navigate to the main directory with all files and run:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python3 main.py
+```
+
+Then navigate to [](http://localhost:8000/) to see the app
+
 ## Documentation
 
 - [Smogun Stats](https://www.smogon.com/stats/)
