@@ -1,4 +1,4 @@
-export const Items: import('../sim/dex-items').ItemDataTable = {
+export const Items = {
 	abilityshield: {
 		name: "Ability Shield",
 		spritenum: 746,
@@ -7697,3 +7697,11 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		isNonstandard: "CAP",
 	},
 };
+
+for (const key in Items) {
+  const item = Items[key];
+  console.log(`"${key}": {`);
+  console.log(`  "name": "${item.name}"`);
+  console.log(`},`);
+}
+

@@ -1,4 +1,8 @@
-export const Learnsets: import('../sim/dex-species').LearnsetDataTable = {
+import * as fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+export const Learnsets = {
 	missingno: {
 		learnset: {
 			blizzard: ["3L1"],
@@ -99984,3 +99988,31 @@ export const Learnsets: import('../sim/dex-species').LearnsetDataTable = {
 		],
 	},
 };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const filePath = path.join(__dirname, "./json/pokedex.json");
+const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+const pokedex = data.pokedex;
+
+for (const [key, info] of Object.entries(pokedex)) {
+  const pokemon = Learnsets[key];
+
+  // Always give learnset a value, even if empty
+  const ls = pokemon?.learnset
+    ? Object.keys(pokemon.learnset)
+    : [];
+
+  (info as any).learnset = ls;
+
+  console.log(
+    pokemon?.learnset
+      ? `Added learnset to ${key}`
+      : `Set ${key} learnset as empty`
+  );
+}
+
+// Save result
+// fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+// console.log("✅ Done updating pokedex.json");

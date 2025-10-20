@@ -1,4 +1,4 @@
-export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
+export const Pokedex = {
 	bulbasaur: {
 		num: 1,
 		name: "Bulbasaur",
@@ -20118,3 +20118,22 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
 		gen: 5,
 	},
 };
+
+for (const key in Pokedex) {
+  const p = Pokedex[key];
+
+  // Skip cosmetic forms
+  if (!p.types) continue;
+
+  const abilitiesArray = Object.values(p.abilities as Record<string, string>).map(a =>
+    a.toLowerCase().replace(/\s+/g, '')
+  );
+
+  // Print in JSON-like format
+  console.log(`"${key}": {`);
+  console.log(`  "name": "${p.name}",`);
+  console.log(`  "types": ${JSON.stringify(p.types)},`);
+  console.log(`  "abilities": ${JSON.stringify(abilitiesArray)},`);
+  console.log(`  "baseStats": ${JSON.stringify(p.baseStats)}`);
+  console.log(`},`);
+}

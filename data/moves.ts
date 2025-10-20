@@ -1,6 +1,4 @@
-// List of flags and their descriptions can be found in sim/dex-moves.ts
-
-export const Moves: import('../sim/dex-moves').MoveDataTable = {
+export const Moves = {
 	"10000000voltthunderbolt": {
 		num: 719,
 		accuracy: true,
@@ -22111,3 +22109,17 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		contestType: "Beautiful",
 	},
 };
+
+for (const key in Moves) {
+  const m = Moves[key];
+
+  // Print in JSON-like format
+  console.log(`"${key}": {`);
+  console.log(`  "name": "${m.name}",`);
+  console.log(`  "type": ${JSON.stringify(m.type)},`);
+  console.log(`  "power": ${JSON.stringify(m.basePower)},`);
+  console.log(`  "category": ${JSON.stringify(m.category)},`);
+  console.log(`  "pp": ${JSON.stringify(m.pp)},`);
+  console.log(`  "accuracy": ${JSON.stringify(m.accuracy)}`);
+  console.log(`},`);
+}

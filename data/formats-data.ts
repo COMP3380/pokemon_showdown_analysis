@@ -1,4 +1,8 @@
-export const FormatsData: import('../sim/dex-species').SpeciesFormatsDataTable = {
+import * as fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const FormatsData = {
 	bulbasaur: {
 		tier: "LC",
 	},
@@ -6045,3 +6049,28 @@ export const FormatsData: import('../sim/dex-species').SpeciesFormatsDataTable =
 		tier: "Illegal",
 	},
 };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const filePath = path.join(__dirname, "./json/pokedex.json");
+const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+const pokedex = data.pokedex;
+
+for (const [key, info] of Object.entries(pokedex)) {
+  const format = FormatsData[key];
+
+  if (format?.isNonstandard) {
+    (info as any).tier = "Illegal";
+    console.log(`Marked ${key} as illegal`);
+  } else if (format) {
+    (info as any).tier = format.tier;
+    console.log(`Added tier for: ${key} (${format.tier})`);
+  } else {
+    console.warn(`ERROR: No format data for: ${key} — not modified`);
+  }
+}
+
+// Save result
+fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+console.log("✅ Done updating pokedex.json");
