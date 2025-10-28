@@ -1,0 +1,26 @@
+# Project Structure
+
+```bash
+pokemon_showdown_analysis/
+  docs/
+    README.md
+    dev-logs.md                 # Developer's personal logs
+    project-structure.md
+    schema.md                   # Database schema
+    er_diagram.png
+  src/
+    data/
+      showdown_data_processed/  # Pokémon Showdown! data parsed into JSON
+      showdown_data_raw/        # Pokémon Showdown! data in TypeScript as in the repository
+      smogon_data/              # Smogon Stats JSON files
+      data.sql                  # Queries to build the database
+    setup/
+      download/                 # Script to download raw data
+      setup_json/               # Script to process Pokémon Showdown! data into JSON form
+      setup_sql/                # Script to generate data.sql from JSON data
+    # More modules to be added
+  .gitignore
+  README.md
+  main.py                       # Program entry point
+  requirements.txt
+```
