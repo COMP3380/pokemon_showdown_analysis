@@ -7,7 +7,7 @@ pokemon_showdown_analysis/
     dev-logs.md                 # Developer's personal logs
     project-structure.md
     schema.md                   # Database schema
-    er_diagram.png
+    er_diagram.pdf
   src/
     data/
       showdown_data_processed/  # Pokémon Showdown! data parsed into JSON
@@ -15,8 +15,8 @@ pokemon_showdown_analysis/
       smogon_data/              # Smogon Stats JSON files
       data.sql                  # Queries to build the database
     setup/
-      download/                 # Script to download raw data
-      setup_json/               # Script to process Pokémon Showdown! data into JSON form
+      download/                 # Script to download raw data (create data/showdown_data_raw/, data/smogon_data/)
+      setup_json/               # Script to process Pokémon Showdown! data into JSON form (create data/showdown_data_processed/)
       setup_sql/                # Script to generate data.sql from JSON data
     # More modules to be added
   .gitignore
