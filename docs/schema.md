@@ -14,14 +14,15 @@ CREATE TABLE Pokemon (
   name VARCHAR(255) NOT NULL CHECK(name <> ''),
   form VARCHAR(255) NOT NULL CHECK(form <> ''),
   type1 VARCHAR(255) NOT NULL REFERENCES Type(name) ON DELETE CASCADE,
-  type2 VARCHAR(255) REFERENCES Type(name) CHECK(type2 <> type1) ON DELETE CASCADE,
+  type2 VARCHAR(255) REFERENCES Type(name) ON DELETE CASCADE,
   hp INTEGER NOT NULL CHECK(hp > 0),
   attack INTEGER NOT NULL CHECK(attack > 0),
   defense INTEGER NOT NULL CHECK(defense > 0),
   spattack INTEGER NOT NULL CHECK(spattack > 0),
   spdefense INTEGER NOT NULL CHECK(spdefense > 0),
   speed INTEGER NOT NULL CHECK(speed > 0),
-  tier VARCHAR(255) REFERENCES Metagame(name) ON DELETE SET NULL
+  tier VARCHAR(255) REFERENCES Metagame(name) ON DELETE SET NULL,
+  CHECK(type2 IS NULL OR type2 <> type1) 
 );
 ```
 
@@ -104,7 +105,8 @@ Stores data about the different periods of play *Smogon* record aggregated stati
 CREATE TABLE Period (
   id VARCHAR(255) PRIMARY KEY CHECK(id <> ''),
   startDate DATETIME NOT NULL,
-  endDate DATETIME NOT NULL CHECK(endDate > startDate)
+  endDate DATETIME NOT NULL,
+  CHECK(endDate > startDate)
 );
 ```
 
@@ -157,8 +159,9 @@ Stores data about which metagame's entire Pokémon set is allowed in another met
 ```sql
 CREATE TABLE MetagameAllowsPokemonFrom (
   parentMetagame VARCHAR(255) REFERENCES Metagame(name) ON DELETE CASCADE,
-  childMetagame VARCHAR(255) REFERENCES Metagame(name) CHECK(childMetagame <> parentMetagame) ON DELETE CASCADE,
-  PRIMARY KEY (parentMetagame, childMetagame)
+  childMetagame VARCHAR(255) REFERENCES Metagame(name) ON DELETE CASCADE,
+  PRIMARY KEY (parentMetagame, childMetagame),
+  CHECK(childMetagame <> parentMetagame)
 );
 ```
 
@@ -173,10 +176,13 @@ CREATE TABLE RawPokemonCount (
   pokemon VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
   rawCount INTEGER NOT NULL CHECK(rawCount > 0),
   numberPlayers INTEGER NOT NULL CHECK(numberPlayers > 0),
-  topGXE INTEGER NOT NULL CHECK(topGXE >= 0 AND topGXE <= 100),
-  p99thGXE INTEGER NOT NULL CHECK(p99thGXE >= 0 AND p99thGXE <= topGXE),
-  p95thGXE INTEGER NOT NULL CHECK(p95thGXE >= 0 AND p95thGXE <= p99thGXE),
-  PRIMARY KEY (metagame, period, pokemon)
+  topGXE INTEGER NOT NULL,
+  p99thGXE INTEGER NOT NULL,
+  p95thGXE INTEGER NOT NULL,
+  PRIMARY KEY (metagame, period, pokemon),
+  CHECK(topGXE >= 0 AND topGXE <= 100),
+  CHECK(p99thGXE >= 0 AND p99thGXE <= topGXE),
+  CHECK(p95thGXE >= 0 AND p95thGXE <= p99thGXE)
 );
 ```
 
@@ -285,9 +291,10 @@ CREATE TABLE TeammateUsage (
   period VARCHAR(255) REFERENCES Period(id) ON DELETE CASCADE,
   cutoff INTEGER REFERENCES Cutoff(elo) ON DELETE CASCADE,
   pokemonCurrent VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
-  pokemonTeammate VARCHAR(255) REFERENCES Pokemon(id) CHECK(pokemonTeammate <> pokemonCurrent) ON DELETE CASCADE,
+  pokemonTeammate VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
   usage FLOAT NOT NULL CHECK(usage >= 0.0),
-  PRIMARY KEY (metagame, period, cutoff, pokemonCurrent, pokemonTeammate)
+  PRIMARY KEY (metagame, period, cutoff, pokemonCurrent, pokemonTeammate),
+  CHECK(pokemonTeammate <> pokemonCurrent)
 );
 ```
 
