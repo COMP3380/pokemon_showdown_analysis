@@ -99992,27 +99992,38 @@ export const Learnsets = {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const filePath = path.join(__dirname, "./json/pokedex.json");
+const filePath = path.join(__dirname, "../showdown_data_processed/pokedex.json");
 const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-const pokedex = data.pokedex;
+const pokedex = data.pokedex as Record<string, any>;
 
-for (const [key, info] of Object.entries(pokedex)) {
-  const pokemon = Learnsets[key];
+for (const key of Object.keys(pokedex)) {
+  const info = pokedex[key];
+  const formLearnset = Learnsets[key]?.learnset;
+  const moveNames = formLearnset ? Object.keys(formLearnset) : [];
 
-  // Always give learnset a value, even if empty
-  const ls = pokemon?.learnset
-    ? Object.keys(pokemon.learnset)
-    : [];
+  // Find base form (largest key substring before current key)
+  const baseFormKey = Object.keys(pokedex)
+    .filter(k => k !== key && key.includes(k))
+    .sort((a, b) => b.length - a.length)[0];
 
-  (info as any).learnset = ls;
+  const baseMoves = baseFormKey ? pokedex[baseFormKey].moves || [] : [];
 
-  console.log(
-    pokemon?.learnset
-      ? `Added learnset to ${key}`
-      : `Set ${key} learnset as empty`
-  );
+  if (!formLearnset || moveNames.length === 0) {
+    info.moves = baseFormKey ? [...baseMoves] : [];
+    console.log(baseFormKey
+      ? `🔹 ${key}: Inheriting base moves from ${baseFormKey}`
+      : `🔹 ${key}: No learnset, creating empty moves array`);
+  } else if (moveNames.length <= 10) {
+    info.moves = baseFormKey ? Array.from(new Set([...baseMoves, ...moveNames])) : moveNames;
+    console.log(baseFormKey
+      ? `➕ ${key}: Adding small learnset (${moveNames.length} moves) to base moves from ${baseFormKey}`
+      : `➕ ${key}: Creating new learnset (${moveNames.length} moves)`);
+  } else {
+    info.moves = moveNames;
+    console.log(`✅ ${key}: Using full learnset (${moveNames.length} moves)`);
+  }
 }
 
 // Save result
-// fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-// console.log("✅ Done updating pokedex.json");
+fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+console.log("✅ Done updating pokedex.json");
