@@ -99999,9 +99999,15 @@ const pokedex = data.pokedex as Record<string, any>;
 for (const key of Object.keys(pokedex)) {
   const info = pokedex[key];
   const formLearnset = Learnsets[key]?.learnset;
-  const moveNames = formLearnset ? Object.keys(formLearnset) : [];
 
-  // Find base form (largest key substring before current key)
+  // Only include moves with at least one "9" entry
+  const moveNames = formLearnset
+    ? Object.entries(formLearnset)
+        .filter(([move, methods]) => methods.some(m => m.startsWith("9")))
+        .map(([move]) => move)
+    : [];
+
+  // Find base form
   const baseFormKey = Object.keys(pokedex)
     .filter(k => k !== key && key.includes(k))
     .sort((a, b) => b.length - a.length)[0];
@@ -100012,15 +100018,18 @@ for (const key of Object.keys(pokedex)) {
     info.moves = baseFormKey ? [...baseMoves] : [];
     console.log(baseFormKey
       ? `🔹 ${key}: Inheriting base moves from ${baseFormKey}`
-      : `🔹 ${key}: No learnset, creating empty moves array`);
+      : `🔹 ${key}: No Gen 9 moves, creating empty moves array`);
   } else if (moveNames.length <= 10) {
-    info.moves = baseFormKey ? Array.from(new Set([...baseMoves, ...moveNames])) : moveNames;
+    info.moves = baseFormKey
+      ? Array.from(new Set([...baseMoves, ...moveNames]))
+      : moveNames;
+
     console.log(baseFormKey
-      ? `➕ ${key}: Adding small learnset (${moveNames.length} moves) to base moves from ${baseFormKey}`
-      : `➕ ${key}: Creating new learnset (${moveNames.length} moves)`);
+      ? `➕ ${key}: Adding small Gen 9 learnset (${moveNames.length} moves) to base moves from ${baseFormKey}`
+      : `➕ ${key}: Creating Gen 9 learnset (${moveNames.length} moves)`);
   } else {
     info.moves = moveNames;
-    console.log(`✅ ${key}: Using full learnset (${moveNames.length} moves)`);
+    console.log(`✅ ${key}: Using full Gen 9 learnset (${moveNames.length} moves)`);
   }
 }
 
