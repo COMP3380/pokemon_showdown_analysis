@@ -30,6 +30,7 @@ pokemon_showdown_analysis/
         stats.py
         styles
         typechart.py
+        styles/                 # Contains associated tcss files for pages
       widgets/                  # Holds reusable widgets created by us
     # More modules to be added
   .gitignore
