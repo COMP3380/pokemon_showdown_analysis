@@ -14,3 +14,8 @@
   * Uploaded the [ER Diagram](./er_diagram.pdf).
   * Updated the [README](./../README.md).
   * Other minor updates.
+
+## 11/22 2025 (Connor)
+
+* Processed Pokemon Showdown! Data
+  * Wrote Typescript to process Typescript Classes to JSON
