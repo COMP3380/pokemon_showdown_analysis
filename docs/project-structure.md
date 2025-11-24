@@ -20,8 +20,17 @@ pokemon_showdown_analysis/
       setup_sql/                # Script to generate data.sql from JSON data
     app/
       app.py                    # Main TUI app entry point
-      widgets/                  # Holds reusable widgets created by us
       screens/                  # Holds different TUI pages/screens 
+        menu.py
+        abilities.py
+        items.py
+        moves.py
+        pokemon.py
+        queries.py
+        stats.py
+        styles
+        typechart.py
+      widgets/                  # Holds reusable widgets created by us
     # More modules to be added
   .gitignore
   README.md
