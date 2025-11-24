@@ -18,9 +18,13 @@ pokemon_showdown_analysis/
       download/                 # Script to download raw data (create data/showdown_data_raw/, data/smogon_data/)
       setup_json/               # Script to process Pokémon Showdown! data into JSON form (create data/showdown_data_processed/)
       setup_sql/                # Script to generate data.sql from JSON data
+    app/
+      app.py                    # Main TUI app entry point
+      widgets/                  # Holds reusable widgets created by us
+      screens/                  # Holds different TUI pages/screens 
     # More modules to be added
   .gitignore
   README.md
-  main.py                       # Program entry point
+  Makefile                      # Runs the program
   requirements.txt
 ```
