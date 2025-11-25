@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 VENV := .venv
 PYTHON := python3
 REQS := requirements.txt
@@ -8,7 +10,6 @@ run: setup
 	@source $(VENV)/bin/activate && \
 	textual run --dev $(APP)
 
-# Setup virtual environment and install dependencies
 .PHONY: setup
 setup: $(VENV)
 	@source $(VENV)/bin/activate && \
