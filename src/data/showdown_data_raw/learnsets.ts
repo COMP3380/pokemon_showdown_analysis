@@ -99992,27 +99992,47 @@ export const Learnsets = {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const filePath = path.join(__dirname, "./json/pokedex.json");
+const filePath = path.join(__dirname, "../showdown_data_processed/pokedex.json");
 const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-const pokedex = data.pokedex;
+const pokedex = data.pokedex as Record<string, any>;
 
-for (const [key, info] of Object.entries(pokedex)) {
-  const pokemon = Learnsets[key];
+for (const key of Object.keys(pokedex)) {
+  const info = pokedex[key];
+  const formLearnset = Learnsets[key]?.learnset;
 
-  // Always give learnset a value, even if empty
-  const ls = pokemon?.learnset
-    ? Object.keys(pokemon.learnset)
+  // Only include moves with at least one "9" entry
+  const moveNames = formLearnset
+    ? Object.entries(formLearnset)
+        .filter(([move, methods]) => methods.some(m => m.startsWith("9")))
+        .map(([move]) => move)
     : [];
 
-  (info as any).learnset = ls;
+  // Find base form
+  const baseFormKey = Object.keys(pokedex)
+    .filter(k => k !== key && key.includes(k))
+    .sort((a, b) => b.length - a.length)[0];
 
-  console.log(
-    pokemon?.learnset
-      ? `Added learnset to ${key}`
-      : `Set ${key} learnset as empty`
-  );
+  const baseMoves = baseFormKey ? pokedex[baseFormKey].moves || [] : [];
+
+  if (!formLearnset || moveNames.length === 0) {
+    info.moves = baseFormKey ? [...baseMoves] : [];
+    console.log(baseFormKey
+      ? `🔹 ${key}: Inheriting base moves from ${baseFormKey}`
+      : `🔹 ${key}: No Gen 9 moves, creating empty moves array`);
+  } else if (moveNames.length <= 10) {
+    info.moves = baseFormKey
+      ? Array.from(new Set([...baseMoves, ...moveNames]))
+      : moveNames;
+
+    console.log(baseFormKey
+      ? `➕ ${key}: Adding small Gen 9 learnset (${moveNames.length} moves) to base moves from ${baseFormKey}`
+      : `➕ ${key}: Creating Gen 9 learnset (${moveNames.length} moves)`);
+  } else {
+    info.moves = moveNames;
+    console.log(`✅ ${key}: Using full Gen 9 learnset (${moveNames.length} moves)`);
+  }
 }
 
 // Save result
-// fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-// console.log("✅ Done updating pokedex.json");
+fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+console.log("✅ Done updating pokedex.json");
