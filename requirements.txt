@@ -1,2 +1,2 @@
-reactpy
-reactpy[flask]
+textual
+textual-dev

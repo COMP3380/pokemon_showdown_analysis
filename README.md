@@ -5,15 +5,24 @@
 Navigate to the main directory with all files and run:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python3 main.py
+make
 ```
 
 ## For Developers
 
-Then navigate to [http://localhost:8000/](http://localhost:8000/) to see the app
+Before running `make`, if you wish to have debug information, first run the
+following in one terminal emulator:
+
+```bash
+make setup
+textual console
+```
+
+Then in different terminal emulator run:
+
+```bash
+make
+```
 
 ### Documentation
 

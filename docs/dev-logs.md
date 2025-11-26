@@ -14,3 +14,17 @@
   * Uploaded the [ER Diagram](./er_diagram.pdf).
   * Updated the [README](./../README.md).
   * Other minor updates.
+
+## 11/22 2025 (Connor)
+
+* Processed Pokemon Showdown! Data
+  * Wrote Typescript to process Typescript Classes to JSON
+
+## 11/24 2025 (Connor)
+
+* Architected page navigation and Menu page
+  * Setup buttons and key bindings
+  * Created stucture in src/app for widgets and screens and styles
+* Setup scripts to run application
+  * Created Makefile options to run the app
+* Minor doc changes
