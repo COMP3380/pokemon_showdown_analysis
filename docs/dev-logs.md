@@ -28,3 +28,8 @@
 * Setup scripts to run application
   * Created Makefile options to run the app
 * Minor doc changes
+
+## 11/26/2025 (Peter)
+
+* Created reusable filterable table component in `src/screens/components/filterable_table.py`
+* Demonstrated usage with application and database in `src/app/test_filterable_table.py`
