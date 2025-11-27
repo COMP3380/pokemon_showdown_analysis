@@ -34,3 +34,4 @@
 * Made script to download all gen 9 smogon chaos files
   * Downloads to src/data/smogon_data
   * Files are categorised using directories based on year and month
+* Determined data to cut to fit under 300MB limit
