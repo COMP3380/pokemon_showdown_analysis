@@ -28,3 +28,9 @@
 * Setup scripts to run application
   * Created Makefile options to run the app
 * Minor doc changes
+
+## 11/27 2025 (Connor)
+
+* Made script to download all gen 9 smogon chaos files
+  * Downloads to src/data/smogon_data
+  * Files are categorised using directories based on year and month
