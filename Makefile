@@ -10,6 +10,11 @@ run: setup
 	@source $(VENV)/bin/activate && \
 	textual run --dev $(APP)
 
+.PHONY: web
+web: setup
+	@source $(VENV)/bin/activate && \
+	textual serve --dev --host 0.0.0.0 --port 8000 $(APP)
+
 .PHONY: setup
 setup: $(VENV)
 	@source $(VENV)/bin/activate && \
