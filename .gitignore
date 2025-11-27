@@ -2,3 +2,4 @@
 node_modules/
 __pycache__/
 textual.log
+src/data/smogon_data/*
