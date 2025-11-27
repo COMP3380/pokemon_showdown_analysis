@@ -4,6 +4,7 @@ VENV := .venv
 PYTHON := python3
 REQS := requirements.txt
 APP := src/app/app.py
+DOWNLOAD := src/setup/download
 
 .PHONY: run
 run: setup
@@ -15,6 +16,8 @@ setup: $(VENV)
 	@source $(VENV)/bin/activate && \
 	pip install --upgrade pip && \
 	pip install -r $(REQS)
+	chmod +x $(DOWNLOAD)/download_smogon.sh
+	./$(DOWNLOAD)/download_smogon.sh
 
 # Create virtual environment if missing
 $(VENV):

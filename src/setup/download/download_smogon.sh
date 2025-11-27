@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-BASE_DOWNLOAD_PATH="$(pwd)/../../data/smogon_data/"
+# get the directory this script is in
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# get the base download path relative to the script
+BASE_DOWNLOAD_PATH="$SCRIPT_DIR/../../data/smogon_data/"
 SMOGUN_URL="https://www.smogon.com/stats/"
 
 months=("07" "08" "09" "10")
@@ -11,13 +15,11 @@ elos_ou=("0" "1500" "1695" "1825") # valid for OU
 mkdir -p "$BASE_DOWNLOAD_PATH"
 
 for m in "${months[@]}"; do
-
-    # Create year/month directory
-    DOWNLOAD_PATH="${BASE_DOWNLOAD_PATH}/${m}"
+    # Create month directories
+    DOWNLOAD_PATH="${BASE_DOWNLOAD_PATH}/$m"
     mkdir -p "$DOWNLOAD_PATH"
 
     for t in "${tiers[@]}"; do
-
         # Choose the correct set of elos based on the tier
         if [ "$t" == "ou" ]; then
             elos=("${elos_ou[@]}")
@@ -26,7 +28,6 @@ for m in "${months[@]}"; do
         fi
 
         for e in "${elos[@]}"; do
-
             url=$(printf "%s2025-%s/chaos/gen9%s-%s.json" \
                 "$SMOGUN_URL" \
                 "$m" \
@@ -34,14 +35,19 @@ for m in "${months[@]}"; do
                 "$e"
             )
 
-            echo "Downloading: $url"
+            FILENAME=$(basename "$url")
+            FILEPATH="$DOWNLOAD_PATH/$FILENAME"
 
-            if wget -q --show-progress -P "$DOWNLOAD_PATH" "$url"; then
-                echo "  ✓ Success"
+            if [ -f "$FILEPATH" ]; then
+                echo "  ⚠ Already exists, skipping: $FILENAME"
             else
-                echo "  ✗ Not found, skipping"
+                echo "Downloading: $url"
+                if wget -q --show-progress -P "$DOWNLOAD_PATH" "$url"; then
+                    echo "  ✓ Success"
+                else
+                    echo "  ✗ Not found, skipping"
+                fi
             fi
-
         done
     done
 done
