@@ -12,6 +12,20 @@ class FilterableTable(Vertical):
     happens when the input bar is interacted with.
     """
 
+    DEFAULT_CSS = """
+    FilterableTable {
+        max-height: 48;
+    }
+
+    FilterableTable > DataTable {
+        height: 1fr;
+    }
+
+    FilterableTable > Input {
+        dock: bottom;
+    }
+    """
+
     class FilterChanged(Message):
         """Custom message sent when the user types in the input."""
 
