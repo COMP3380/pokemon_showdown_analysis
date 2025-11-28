@@ -9,8 +9,8 @@ SMOGUN_URL="https://www.smogon.com/stats/"
 
 months=("07" "08" "09" "10")
 tiers=("ubers" "ou" "uu" "ru" "nu" "pu" "zu")
-elos_all=("0" "1500" "1630" "1760") # valid for all tiers except OU
-elos_ou=("0" "1500" "1695" "1825") # valid for OU
+elos_all=("0" "1760") # valid for all tiers except OU
+elos_ou=("0" "1825") # valid for OU
 
 mkdir -p "$BASE_DOWNLOAD_PATH"
 
