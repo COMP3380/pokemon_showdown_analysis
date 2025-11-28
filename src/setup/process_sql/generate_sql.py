@@ -69,6 +69,28 @@ def generate_ability(source: str, dest: str) -> None:
     print("Finished writing Ability queries into", dest)
 
 
+def generate_move(source: str, dest: str) -> None:
+    queries: list[str] = []
+
+    with open(source, "r") as f:
+        data: dict = json.load(f)
+
+    moves: dict[str, dict[str, str | int | bool]] = data["moves"]
+
+    for m in moves:
+        acc: str = "NULL" if moves[m]["accuracy"] is True else str(
+            moves[m]["accuracy"])
+        queries.append(
+            f"INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ({m}, {moves[m]['name']}, {moves[m]['type']}, {moves[m]['power']}, {moves[m]['category']}, {moves[m]['pp']}, {acc});")
+
+    with open(dest, "w") as f:
+        for q in queries:
+            # print(q)
+            f.write(q.strip() + "\n")
+
+    print("Finished writing Move queries into", dest)
+
+
 def main() -> None:
     generate_type(
         "../../data/showdown_data_processed/typechart.json", "./type.sql")
@@ -76,6 +98,8 @@ def main() -> None:
         "../../data/showdown_data_processed/items.json", "./item.sql")
     generate_ability(
         "../../data/showdown_data_processed/abilities.json", "./ability.sql")
+    generate_move(
+        "../../data/showdown_data_processed/moves.json", "./move.sql")
 
 
 if __name__ == "__main__":
