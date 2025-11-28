@@ -33,3 +33,10 @@
 
 * Created reusable filterable table component in `src/screens/components/filterable_table.py`
 * Demonstrated usage with application and database in `src/app/test_filterable_table.py`
+
+## 11/27 2025 (Connor)
+
+* Made script to download all gen 9 smogon chaos files
+  * Downloads to src/data/smogon_data
+  * Files are categorised using directories based on year and month
+* Determined data to cut to fit under 300MB limit
