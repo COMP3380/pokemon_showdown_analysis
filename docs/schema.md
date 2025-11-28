@@ -4,6 +4,8 @@ DDL for the tables used in this project.
 
 "Pokémon" is typed as "Pokemon" in code to make developers' life easier. All strings are unamiously stored as `VARCHAR(255)` regardless of realistically required length to store the information for the same reason.
 
+Every `ON DELETE NO ACTION` foreign key constraint was designed to be `ON DELETE CASCADE`, but had to be changed due to SQL Server issues.
+
 ## Pokémon
 
 Stores data about Pokémon species. 
@@ -14,7 +16,7 @@ CREATE TABLE Pokemon (
   name VARCHAR(255) NOT NULL CHECK(name <> ''),
   form VARCHAR(255) NOT NULL CHECK(form <> ''),
   type1 VARCHAR(255) NOT NULL REFERENCES Type(name) ON DELETE CASCADE,
-  type2 VARCHAR(255) REFERENCES Type(name) ON DELETE CASCADE,
+  type2 VARCHAR(255) REFERENCES Type(name) ON DELETE NO ACTION,
   hp INTEGER NOT NULL CHECK(hp > 0),
   attack INTEGER NOT NULL CHECK(attack > 0),
   defense INTEGER NOT NULL CHECK(defense > 0),
@@ -129,7 +131,7 @@ Stores data about each Pokémon's learnset. Method of learning is omitted.
 ```sql
 CREATE TABLE PokemonLearnsMove (
   pokemon VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
-  move VARCHAR(255) REFERENCES Move(id) ON DELETE CASCADE,
+  move VARCHAR(255) REFERENCES Move(id) ON DELETE NO ACTION,
   PRIMARY KEY (pokemon, move)
 );
 ```
@@ -146,7 +148,7 @@ Stores data about the effectiveness of types on each other.
 ```sql
 CREATE TABLE TypeEffectiveness (
   attackingType VARCHAR(255) REFERENCES Type(name) ON DELETE CASCADE,
-  defendingType VARCHAR(255) REFERENCES Type(name) ON DELETE CASCADE,
+  defendingType VARCHAR(255) REFERENCES Type(name) ON DELETE NO ACTION,
   effectiveness INTEGER NOT NULL CHECK(effectiveness >= 0 AND effectiveness <= 3),
   PRIMARY KEY (attackingType, defendingType)
 );
@@ -159,7 +161,7 @@ Stores data about which metagame's entire Pokémon set is allowed in another met
 ```sql
 CREATE TABLE MetagameAllowsPokemonFrom (
   parentMetagame VARCHAR(255) REFERENCES Metagame(name) ON DELETE CASCADE,
-  childMetagame VARCHAR(255) REFERENCES Metagame(name) ON DELETE CASCADE,
+  childMetagame VARCHAR(255) REFERENCES Metagame(name) ON DELETE NO ACTION,
   PRIMARY KEY (parentMetagame, childMetagame),
   CHECK(childMetagame <> parentMetagame)
 );
@@ -243,7 +245,7 @@ CREATE TABLE MoveUsage (
   period VARCHAR(255) REFERENCES Period(id) ON DELETE CASCADE,
   cutoff INTEGER REFERENCES Cutoff(elo) ON DELETE CASCADE,
   pokemon VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
-  move VARCHAR(255) REFERENCES Move(id) ON DELETE CASCADE,
+  move VARCHAR(255) REFERENCES Move(id) ON DELETE NO ACTION,
   usage FLOAT NOT NULL CHECK(usage >= 0.0),
   PRIMARY KEY (metagame, period, cutoff, pokemon, move)
 );
@@ -274,7 +276,7 @@ CREATE TABLE TeraUsage (
   metagame VARCHAR(255) REFERENCES Metagame(name) ON DELETE CASCADE,
   period VARCHAR(255) REFERENCES Period(id) ON DELETE CASCADE,
   cutoff INTEGER REFERENCES Cutoff(elo) ON DELETE CASCADE,
-  pokemon VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
+  pokemon VARCHAR(255) REFERENCES Pokemon(id) ON DELETE NO ACTION,
   type VARCHAR(255) REFERENCES Type(name) ON DELETE CASCADE,
   usage FLOAT NOT NULL CHECK(usage >= 0.0),
   PRIMARY KEY (metagame, period, cutoff, pokemon, type)
@@ -291,7 +293,7 @@ CREATE TABLE TeammateUsage (
   period VARCHAR(255) REFERENCES Period(id) ON DELETE CASCADE,
   cutoff INTEGER REFERENCES Cutoff(elo) ON DELETE CASCADE,
   pokemonCurrent VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
-  pokemonTeammate VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
+  pokemonTeammate VARCHAR(255) REFERENCES Pokemon(id) ON DELETE NO ACTION,
   usage FLOAT NOT NULL CHECK(usage >= 0.0),
   PRIMARY KEY (metagame, period, cutoff, pokemonCurrent, pokemonTeammate),
   CHECK(pokemonTeammate <> pokemonCurrent)
@@ -308,7 +310,7 @@ CREATE TABLE CheckAndCounter (
   period VARCHAR(255) REFERENCES Period(id) ON DELETE CASCADE,
   cutoff INTEGER REFERENCES Cutoff(elo) ON DELETE CASCADE,
   pokemonCurrent VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
-  pokemonOpposing VARCHAR(255) REFERENCES Pokemon(id) ON DELETE CASCADE,
+  pokemonOpposing VARCHAR(255) REFERENCES Pokemon(id) ON DELETE NO ACTION,
   occurrence FLOAT NOT NULL CHECK(occurrence >= 0.0),
   koRate FLOAT NOT NULL CHECK(koRate >= 0.0 AND koRate <= 100.0),
   switchRate FLOAT NOT NULL CHECK(switchRate >= 0.0 AND switchRate <= 100.0),
