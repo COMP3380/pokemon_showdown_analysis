@@ -6,6 +6,7 @@ from screens.items import Items
 from screens.abilities import Abilities
 from screens.typechart import Typechart
 from screens.stats import Stats
+from screens.stats_p2 import StatsP2
 from screens.queries import Queries
 
 class PokiTUI(App):
@@ -18,6 +19,7 @@ class PokiTUI(App):
         "abilities": Abilities,
         "typechart": Typechart,
         "stats": Stats,
+        "stats_p2": StatsP2,
         "queries": Queries,
     }
 
