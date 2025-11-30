@@ -93,7 +93,6 @@ class Stats(Screen):
             setattr(self.app, "period", event.option.id)
             self.swap_lists("month", "metagame")
 
-
         if event.option_list.id == "metagame":
             self.log(f"Selected {event.option.prompt}")
             setattr(self.app, "metagame", event.option.id)
