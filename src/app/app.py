@@ -23,6 +23,10 @@ class PokiTUI(App):
         "queries": Queries,
     }
 
+    period: str = ""
+    metagame: str = ""
+    cutoff: str = ""
+
     # On startup, show the user the Menu
     def on_mount(self):
         self.push_screen("menu")

@@ -16,7 +16,7 @@ class StatsP2(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label("Nothing here yet...")
+        yield Label(f"Selected: {getattr(self.app, "period")}, {getattr(self.app, "metagame")}, {getattr(self.app, "cutoff")}")
         yield Footer()
 
     def action_menu(self):

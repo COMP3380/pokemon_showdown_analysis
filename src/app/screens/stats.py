@@ -16,8 +16,6 @@ class Stats(Screen):
         ("b", "back", "Back"),
         Binding("h,left", "prevlist", "Previous OptionList", show=False),
     ]
-    def action_ent(self):
-        print()
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -52,11 +50,11 @@ class Stats(Screen):
             )
             yield VimOptionList(
                 Option("0", id="0"),
-                Option("1500", id="c1500", disabled=True),
-                Option("1630", id="c1630", disabled=True),
-                Option("1695", id="c1695", disabled=True),
-                Option("1760", id="c1760"),
-                Option("1825", id="c1825"),
+                Option("1500", id="1500", disabled=True),
+                Option("1630", id="1630", disabled=True),
+                Option("1695", id="1695", disabled=True),
+                Option("1760", id="1760"),
+                Option("1825", id="1825"),
                 id="cutoff",
                 disabled=True
             )
@@ -92,10 +90,13 @@ class Stats(Screen):
     def choose_month(self, event: OptionList.OptionSelected) -> None:
         if event.option_list.id == "month":
             self.log(f"Selected {event.option.prompt}")
+            setattr(self.app, "period", event.option.id)
             self.swap_lists("month", "metagame")
+
 
         if event.option_list.id == "metagame":
             self.log(f"Selected {event.option.prompt}")
+            setattr(self.app, "metagame", event.option.id)
             self.swap_lists("metagame", "cutoff")
 
             cutoff = self.query_one("#cutoff", OptionList)
@@ -103,18 +104,19 @@ class Stats(Screen):
             # OU has different cutoffs
             for option in cutoff.options:
                 if event.option.id == "ou":
-                    if option.id == "c1760":
+                    if option.id == "1760":
                         option.disabled = True
-                    if option.id == "c1825":
+                    if option.id == "1825":
                         option.disabled = False
                 else:
-                    if option.id == "c1760":
+                    if option.id == "1760":
                         option.disabled = False
-                    if option.id == "c1825":
+                    if option.id == "1825":
                         option.disabled = True
 
         if event.option_list.id == "cutoff":
             self.log(f"Selected {event.option.prompt}")
+            setattr(self.app, "cutoff", event.option.id)
             self.app.push_screen("stats_p2")
 
     # Disable l1, Enable l2

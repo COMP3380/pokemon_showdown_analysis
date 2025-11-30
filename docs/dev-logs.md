@@ -47,3 +47,4 @@
   * Arrow key and Vim bindings to navigate choices
   * Must choose in order period -> metagame -> cutoff
 * Added "Back" functionality, to go to prev page
+* Added global state, tracks chosen attributes
