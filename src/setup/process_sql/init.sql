@@ -61,7 +61,7 @@ CREATE TABLE Move (
   id VARCHAR(255) PRIMARY KEY CHECK(id <> ''),
   name VARCHAR(255) NOT NULL CHECK(name <> ''),
   type VARCHAR(255) NOT NULL REFERENCES Type(name) ON DELETE CASCADE,
-  power INTEGER NOT NULL CHECK(power > 0),
+  power INTEGER NOT NULL CHECK(power >= 0),
   category VARCHAR(8) NOT NULL CHECK(category = 'Physical' OR category = 'Special' OR category = 'Status'),
   pp INTEGER NOT NULL CHECK(pp > 0),
   accuracy INTEGER CHECK(accuracy > 0)
