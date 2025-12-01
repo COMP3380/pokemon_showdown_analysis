@@ -38,6 +38,7 @@ def generate_item(source: str, dest: str) -> None:
     items: dict[str, dict[str, str]] = data["items"]
 
     for i in items:
+        items[i]['name'] = items[i]['name'].replace("'", "''")
         queries.append(
             f"INSERT INTO Item (id, name) VALUES (\'{i}\', \'{items[i]['name']}\');")
 
@@ -58,6 +59,7 @@ def generate_ability(source: str, dest: str) -> None:
     abilities: dict[str, dict[str, str]] = data["abilities"]
 
     for a in abilities:
+        abilities[a]['name'] = abilities[a]['name'].replace("'", "''")
         queries.append(
             f"INSERT INTO Ability (id, name) VALUES (\'{a}\', \'{abilities[a]['name']}\');")
 
@@ -80,8 +82,9 @@ def generate_move(source: str, dest: str) -> None:
     for m in moves:
         acc: str = "NULL" if moves[m]["accuracy"] is True else str(
             moves[m]["accuracy"])
+        moves[m]['name'] = moves[m]['name'].replace("'", "''")
         queries.append(
-            f"INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES (\'{m}\', \'{moves[m]['name']}\', \'{moves[m]['type']}\', {moves[m]['power']}, \'{moves[m]['category']}\', {moves[m]['pp']}, {acc});")
+            f"INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES (\'{m}\', \'{moves[m]['name']}\', \'{moves[m]['type']}\', {moves[m]['power']}, \'{moves[m]['category']}\', {moves[m]['pp']}, {acc}); ")
 
     with open(dest, "w") as f:
         for q in queries:

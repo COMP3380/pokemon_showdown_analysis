@@ -191,7 +191,7 @@ INSERT INTO Item (id, name) VALUES ('kebiaberry', 'Kebia Berry');
 INSERT INTO Item (id, name) VALUES ('keeberry', 'Kee Berry');
 INSERT INTO Item (id, name) VALUES ('kelpsyberry', 'Kelpsy Berry');
 INSERT INTO Item (id, name) VALUES ('kangaskhanite', 'Kangaskhanite');
-INSERT INTO Item (id, name) VALUES ('kingsrock', 'King's Rock');
+INSERT INTO Item (id, name) VALUES ('kingsrock', 'King''s Rock');
 INSERT INTO Item (id, name) VALUES ('kommoniumz', 'Kommonium Z');
 INSERT INTO Item (id, name) VALUES ('laggingtail', 'Lagging Tail');
 INSERT INTO Item (id, name) VALUES ('lansatberry', 'Lansat Berry');

@@ -280,7 +280,7 @@ INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('focusp
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('followme', 'Follow Me', 'Normal', 0, 'Status', 20, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('forcepalm', 'Force Palm', 'Fighting', 60, 'Physical', 10, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('foresight', 'Foresight', 'Normal', 0, 'Status', 40, NULL);
-INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('forestscurse', 'Forest's Curse', 'Grass', 0, 'Status', 20, 100);
+INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('forestscurse', 'Forest''s Curse', 'Grass', 0, 'Status', 20, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('foulplay', 'Foul Play', 'Dark', 95, 'Physical', 15, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('freezedry', 'Freeze-Dry', 'Ice', 70, 'Special', 20, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('freezeshock', 'Freeze Shock', 'Ice', 140, 'Physical', 5, 90);
@@ -450,10 +450,10 @@ INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('jumpki
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('junglehealing', 'Jungle Healing', 'Grass', 0, 'Status', 10, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('karatechop', 'Karate Chop', 'Fighting', 50, 'Physical', 25, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('kinesis', 'Kinesis', 'Psychic', 0, 'Status', 15, 80);
-INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('kingsshield', 'King's Shield', 'Steel', 0, 'Status', 10, NULL);
+INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('kingsshield', 'King''s Shield', 'Steel', 0, 'Status', 10, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('knockoff', 'Knock Off', 'Dark', 65, 'Physical', 20, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('kowtowcleave', 'Kowtow Cleave', 'Dark', 85, 'Physical', 10, NULL);
-INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('landswrath', 'Land's Wrath', 'Ground', 90, 'Physical', 10, 100);
+INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('landswrath', 'Land''s Wrath', 'Ground', 90, 'Physical', 10, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('laserfocus', 'Laser Focus', 'Normal', 0, 'Status', 30, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('lashout', 'Lash Out', 'Dark', 75, 'Physical', 5, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('lastresort', 'Last Resort', 'Normal', 140, 'Physical', 5, 100);
@@ -466,7 +466,7 @@ INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('leafto
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('leechlife', 'Leech Life', 'Bug', 80, 'Physical', 10, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('leechseed', 'Leech Seed', 'Grass', 0, 'Status', 10, 90);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('leer', 'Leer', 'Normal', 0, 'Status', 30, 100);
-INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('letssnuggleforever', 'Let's Snuggle Forever', 'Fairy', 190, 'Physical', 1, NULL);
+INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('letssnuggleforever', 'Let''s Snuggle Forever', 'Fairy', 190, 'Physical', 1, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('lick', 'Lick', 'Ghost', 30, 'Physical', 30, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('lifedew', 'Life Dew', 'Water', 0, 'Status', 10, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('lightofruin', 'Light of Ruin', 'Fairy', 140, 'Special', 5, 90);
@@ -565,7 +565,7 @@ INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('mystic
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('nastyplot', 'Nasty Plot', 'Dark', 0, 'Status', 20, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('naturalgift', 'Natural Gift', 'Normal', 0, 'Physical', 15, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('naturepower', 'Nature Power', 'Normal', 0, 'Status', 20, NULL);
-INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('naturesmadness', 'Nature's Madness', 'Fairy', 0, 'Special', 10, 90);
+INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('naturesmadness', 'Nature''s Madness', 'Fairy', 0, 'Special', 10, 90);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('needlearm', 'Needle Arm', 'Grass', 60, 'Physical', 15, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('neverendingnightmare', 'Never-Ending Nightmare', 'Ghost', 1, 'Physical', 1, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('nightdaze', 'Night Daze', 'Dark', 85, 'Special', 10, 95);
