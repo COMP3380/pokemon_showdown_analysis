@@ -155,10 +155,11 @@ def generate_pokedex(source: str, dest: str) -> None:
 
     pokedex: dict[str, dict[str, str | list[str]
                             | dict[str, int]]] = data["pokedex"]
+    del pokedex["missingno"]
 
     # Insert Pokemon table first
     for p in pokedex:
-        name: str = pokedex[p]["name"]
+        name: str = pokedex[p]["name"].replace("'", "''")
         type1: str = pokedex[p]["types"][0]
         type2: str
         if len(pokedex[p]["types"]) > 1:
@@ -182,14 +183,15 @@ def generate_pokedex(source: str, dest: str) -> None:
 
     # Insert PokemonHasAbility table
     for p in pokedex:
-        abilities: list[str] = pokedex[p]["abilities"]
+        abilities: list[str] = [a.replace("'", "").replace("-", "").replace("(", "").replace(")", "")
+                                for a in pokedex[p]["abilities"]]
         for a in abilities:
             queries.append(
                 f"INSERT INTO PokemonHasAbility (pokemon, ability) VALUES ('{p}', '{a}');")
 
     # Insert PokemonLearnsMove table
     for p in pokedex:
-        moves: list[str] = pokedex[p]["moves"]
+        moves: list[str] = [m.replace("'", "") for m in pokedex[p]["moves"]]
         for m in moves:
             queries.append(
                 f"INSERT INTO PokemonLearnsMove (pokemon, move) VALUES ('{p}', '{m}');")
