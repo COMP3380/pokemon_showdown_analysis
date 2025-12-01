@@ -11,7 +11,7 @@ def generate_type(source: str, dest: str) -> None:
 
     # Populate the Type table first
     for t in typechart:
-        queries.append(f"INSERT INTO Type (name) VALUES ({t});")
+        queries.append(f"INSERT INTO Type (name) VALUES ('{t}');")
 
     # Populate the TypeEffectiveness table
     for df in typechart:
@@ -19,7 +19,7 @@ def generate_type(source: str, dest: str) -> None:
             # Ignore weather/status effects, only include types
             if att in typechart:
                 queries.append(
-                    f"INSERT INTO TypeEffectiveness (attackingType, defendingType, effectiveness) VALUES ({att}, {df}, {typechart[df][att]});")
+                    f"INSERT INTO TypeEffectiveness (attackingType, defendingType, effectiveness) VALUES ('{att}', '{df}', {typechart[df][att]});")
 
     with open(dest, "w") as f:
         for q in queries:
@@ -39,7 +39,7 @@ def generate_item(source: str, dest: str) -> None:
 
     for i in items:
         queries.append(
-            f"INSERT INTO Item (id, name) VALUES ({i}, {items[i]['name']});")
+            f"INSERT INTO Item (id, name) VALUES (\'{i}\', \'{items[i]['name']}\');")
 
     with open(dest, "w") as f:
         for q in queries:
@@ -59,7 +59,7 @@ def generate_ability(source: str, dest: str) -> None:
 
     for a in abilities:
         queries.append(
-            f"INSERT INTO Ability (id, name) VALUES ({a}, {abilities[a]['name']});")
+            f"INSERT INTO Ability (id, name) VALUES (\'{a}\', \'{abilities[a]['name']}\');")
 
     with open(dest, "w") as f:
         for q in queries:
@@ -81,7 +81,7 @@ def generate_move(source: str, dest: str) -> None:
         acc: str = "NULL" if moves[m]["accuracy"] is True else str(
             moves[m]["accuracy"])
         queries.append(
-            f"INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ({m}, {moves[m]['name']}, {moves[m]['type']}, {moves[m]['power']}, {moves[m]['category']}, {moves[m]['pp']}, {acc});")
+            f"INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES (\'{m}\', \'{moves[m]['name']}\', \'{moves[m]['type']}\', {moves[m]['power']}, \'{moves[m]['category']}\', {moves[m]['pp']}, {acc});")
 
     with open(dest, "w") as f:
         for q in queries:
@@ -89,6 +89,40 @@ def generate_move(source: str, dest: str) -> None:
             f.write(q.strip() + "\n")
 
     print("Finished writing Move queries into", dest)
+
+
+def generate_metadata(dest: str) -> None:
+    # hardcoded because i'm lazy
+    INSERT_METAGAME: str = "INSERT INTO Metagame (name) VALUES ('{}');"
+    INSERT_PERIOD: str = "INSERT INTO Period (id, startDate, endDate) VALUES {};"
+    INSERT_CUTOFF: str = "INSERT INTO Cutoff (elo) VALUES ({});"
+    INSERT_MAPF: str = "INSERT INTO MetagameAllowsPokemonFrom (parentMetagame, childMetagame) VALUES ('{}', '{}');"
+
+    METAGAMES: list[str] = ["Ubers", "OU", "UU", "RU", "NU", "PU", "ZU"]
+    PERIODS: list[str] = [
+        "('2025-07', '2025-07-01 00:00:00.000', '2025-07-31 23:59:59.997')",
+        "('2025-08', '2025-08-01 00:00:00.000', '2025-08-31 23:59:59.997')",
+        "('2025-09', '2025-09-01 00:00:00.000', '2025-09-30 23:59:59.997')",
+        "('2025-10', '2025-10-01 00:00:00.000', '2025-10-31 23:59:59.997')"
+    ]
+    CUTOFFS: list[int] = [0, 1760, 1825]
+
+    with open(dest, "w") as f:
+        for m in METAGAMES:
+            f.write(INSERT_METAGAME.format(m.strip()) + "\n")
+
+        for p in PERIODS:
+            f.write(INSERT_PERIOD.format(p.strip()) + "\n")
+
+        for c in CUTOFFS:
+            f.write(INSERT_CUTOFF.format(c) + "\n")
+
+        for i in range(len(METAGAMES) - 1):
+            for j in range(i + 1, len(METAGAMES)):
+                f.write(INSERT_MAPF.format(
+                    METAGAMES[i].strip(), METAGAMES[j].strip()) + "\n")
+
+    print("Finished writing Metagame, Period, Cutoff, MetagameAllowsPokemonFrom queries into", dest)
 
 
 def main() -> None:
@@ -100,6 +134,7 @@ def main() -> None:
         "../../data/showdown_data_processed/abilities.json", "./ability.sql")
     generate_move(
         "../../data/showdown_data_processed/moves.json", "./move.sql")
+    generate_metadata("./metadata.sql")
 
 
 if __name__ == "__main__":
