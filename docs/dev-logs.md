@@ -40,3 +40,11 @@
   * Downloads to src/data/smogon_data
   * Files are categorised using directories based on year and month
 * Determined data to cut to fit under 300MB limit
+
+## 11/29 2015 (Connor)
+
+* Created Stats Page to choose period, metagame, cutoff
+  * Arrow key and Vim bindings to navigate choices
+  * Must choose in order period -> metagame -> cutoff
+* Added "Back" functionality, to go to prev page
+* Added global state, tracks chosen attributes
