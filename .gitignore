@@ -3,3 +3,4 @@ node_modules/
 __pycache__/
 textual.log
 src/data/smogon_data/*
+src/setup/process_sql/stats_*.sql

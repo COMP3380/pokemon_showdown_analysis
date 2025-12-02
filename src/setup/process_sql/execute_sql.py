@@ -26,6 +26,12 @@ def main() -> None:
     execute_sql_file(cursor, "./move.sql")
     execute_sql_file(cursor, "./metadata.sql")
     execute_sql_file(cursor, "./pokedex.sql")
+    for p in ["2025-07", "2025-08", "2025-09", "2025-10"]:
+        for m in ["Ubers", "UU", "RU", "NU", "PU", "ZU"]:
+            execute_sql_file(cursor, f"./stats_{p}_{m}_0.sql")
+            execute_sql_file(cursor, f"./stats_{p}_{m}_1760.sql")
+        execute_sql_file(cursor, f"./stats_{p}_OU_0.sql")
+        execute_sql_file(cursor, f"./stats_{p}_OU_1825.sql")
 
     connection.commit()
     connection.close()

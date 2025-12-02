@@ -315,8 +315,17 @@ def main() -> None:
     generate_metadata("./metadata.sql")
     generate_pokedex(
         "../../data/showdown_data_processed/pokedex.json", "./pokedex.sql")
-    generate_smogon_stats("2025-10", "ZU", 1760,
-                          "../../data/smogon_data/10/gen9zu-1760.json")
+
+    for p in ["2025-07", "2025-08", "2025-09", "2025-10"]:
+        for m in ["Ubers", "UU", "RU", "NU", "PU", "ZU"]:
+            generate_smogon_stats(
+                p, m, 0, f"../../data/smogon_data/{p[-2:]}/gen9{m.lower()}-0.json")
+            generate_smogon_stats(
+                p, m, 1760, f"../../data/smogon_data/{p[-2:]}/gen9{m.lower()}-1760.json")
+        generate_smogon_stats(
+            p, "OU", 0, f"../../data/smogon_data/{p[-2:]}/gen9ou-0.json")
+        generate_smogon_stats(
+            p, "OU", 1825, f"../../data/smogon_data/{p[-2:]}/gen9ou-1825.json")
 
 
 if __name__ == "__main__":
