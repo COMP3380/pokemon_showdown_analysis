@@ -11,6 +11,7 @@ from screens.abilities import Abilities
 from screens.abilities_p2 import AbilitiesP2
 from screens.typechart import Typechart
 from screens.stats import Stats
+from screens.stats_p2 import StatsP2
 from screens.queries import Queries
 
 class PokiTUI(App):
@@ -27,11 +28,10 @@ class PokiTUI(App):
         "abilities_p2": AbilitiesP2,
         "typechart": Typechart,
         "stats": Stats,
+        "stats_p2": StatsP2,
         "queries": Queries,
     }
 
-    def on_startup(self) -> None:
-        pass
 
     # On startup, show the user the Menu
     def on_mount(self):
@@ -49,6 +49,11 @@ class PokiTUI(App):
         self.ability = ""
         self.move = ""
         self.pokemon = ""
+        
+        # Variables for stats page
+        self.period = ""
+        self.metagame = ""
+        self.cutoff = ""
 
         # Start at menu screen
         self.push_screen("menu")
