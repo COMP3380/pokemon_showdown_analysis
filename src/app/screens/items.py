@@ -73,7 +73,7 @@ class Items(Screen):
             row_index = data_table.cursor_row
 
             # Set the global variable to the selection and change pages
-            if row_index is not None:
+            if row_index is not None and len(self.rows) > 0:
                 row = data_table.get_row_at(row_index)
                 setattr(self.app, "item", row[0])
 
