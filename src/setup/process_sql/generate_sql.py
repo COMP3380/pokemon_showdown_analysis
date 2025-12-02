@@ -230,10 +230,12 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
             "-", "").replace("(", "").replace(")", "").replace(" ", "")
 
         # RawPokemonCount
-        rawCount: int = stats[p]["Raw count"]
-        numberPlayers, topGXE, p99thGXE, p95thGXE = stats[p]["Viability Ceiling"]
-        queries.append(
-            f"INSERT INTO RawPokemonCount (metagame, period, pokemon, rawCount, numberPlayers, topGXE, p99thGXE, p95thGXE) VALUES ('{metagame}', '{period}', '{pokemon}', {rawCount}, {numberPlayers}, {topGXE}, {p99thGXE}, {p95thGXE})")
+        # Ensure only generate once per metagame/period...so just check elo = 0
+        if cutoff == 0:
+            rawCount: int = stats[p]["Raw count"]
+            numberPlayers, topGXE, p99thGXE, p95thGXE = stats[p]["Viability Ceiling"]
+            queries.append(
+                f"INSERT INTO RawPokemonCount (metagame, period, pokemon, rawCount, numberPlayers, topGXE, p99thGXE, p95thGXE) VALUES ('{metagame}', '{period}', '{pokemon}', {rawCount}, {numberPlayers}, {topGXE}, {p99thGXE}, {p95thGXE})")
 
         # PokemonUsage
         pusage: float = stats[p]["usage"]
