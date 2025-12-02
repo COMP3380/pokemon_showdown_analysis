@@ -48,3 +48,10 @@
   * Must choose in order period -> metagame -> cutoff
 * Added "Back" functionality, to go to prev page
 * Added global state, tracks chosen attributes
+
+## 12/01/2025 (Connor)
+
+* Made the Items Page
+  * Connects to MS SQL Database
+  * Enter to select the highlighted row
+
