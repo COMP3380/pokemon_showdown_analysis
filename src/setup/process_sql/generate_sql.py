@@ -227,7 +227,7 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
 
     for p in stats:
         pokemon: str = p.lower().replace("'", "").replace(
-            "-", "").replace("(", "").replace(")", "")
+            "-", "").replace("(", "").replace(")", "").replace(" ", "")
 
         # RawPokemonCount
         rawCount: int = stats[p]["Raw count"]
@@ -280,7 +280,7 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
             del stats[p]["Teammates"]["empty"]
         for t in stats[p]["Teammates"]:
             pokemonTeammate: str = t.lower().replace("'", "").replace(
-                "-", "").replace("(", "").replace(")", "")
+                "-", "").replace("(", "").replace(")", "").replace(" ", "")
             teammateUsage: float = stats[p]["Teammates"][t]
             queries.append(
                 f"INSERT INTO TeammateUsage (metagame, period, cutoff, pokemonCurrent, pokemonTeammate, usage) VALUES ({mpc}, '{pokemon}', '{pokemonTeammate}', {teammateUsage});"
@@ -288,8 +288,8 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
 
         # CheckAndCounter
         for c in stats[p]["Checks and Counters"]:
-            pokemonOpposing: str = t.lower().replace("'", "").replace(
-                "-", "").replace("(", "").replace(")", "")
+            pokemonOpposing: str = c.lower().replace("'", "").replace(
+                "-", "").replace("(", "").replace(")", "").replace(" ", "")
             occurrence, koRate, switchRate = stats[p]["Checks and Counters"][c]
             queries.append(
                 f"INSERT INTO CheckAndCounter (metagame, period, cutoff, pokemonCurrent, pokemonOpposing, occurrence, koRate, switchRate) VALUES ({mpc}, '{pokemon}', '{pokemonOpposing}', {occurrence}, {koRate}, {switchRate});"
