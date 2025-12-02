@@ -226,7 +226,7 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
     stats: dict[str, int | list[int] | dict[str, float]] = data["data"]
 
     for p in stats:
-        pokemon: str = p.replace("'", "").replace(
+        pokemon: str = p.lower().replace("'", "").replace(
             "-", "").replace("(", "").replace(")", "")
 
         # RawPokemonCount
@@ -279,7 +279,7 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
         if "empty" in stats[p]["Teammates"]:
             del stats[p]["Teammates"]["empty"]
         for t in stats[p]["Teammates"]:
-            pokemonTeammate: str = t.replace("'", "").replace(
+            pokemonTeammate: str = t.lower().replace("'", "").replace(
                 "-", "").replace("(", "").replace(")", "")
             teammateUsage: float = stats[p]["Teammates"][t]
             queries.append(
@@ -288,7 +288,7 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
 
         # CheckAndCounter
         for c in stats[p]["Checks and Counters"]:
-            pokemonOpposing: str = t.replace("'", "").replace(
+            pokemonOpposing: str = t.lower().replace("'", "").replace(
                 "-", "").replace("(", "").replace(")", "")
             occurrence, koRate, switchRate = stats[p]["Checks and Counters"][c]
             queries.append(
