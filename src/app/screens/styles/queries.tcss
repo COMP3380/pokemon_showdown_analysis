@@ -1,0 +1,13 @@
+#queries_screen {
+  margin-top: 2;
+  layout: grid;
+  grid-size: 3;
+  grid-gutter: 1 1;
+  align: center top;
+}
+
+#queries_screen Button {
+  width: 80%;
+  height: 80%;
+  border: outer $border;
+}

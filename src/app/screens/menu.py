@@ -22,7 +22,7 @@ class Menu(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        with Container(id="menu"):
+        with Container(id="menu_screen"):
             yield Button("Moves", id="moves")
             yield Button("Pokemon", id="pokemon")
             yield Button("Items", id="items")
