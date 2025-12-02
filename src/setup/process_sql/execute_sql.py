@@ -7,10 +7,13 @@ DATABASE: str = "cs3380"
 
 
 def execute_sql_file(cursor, filename: str) -> None:
+    print("Reading", filename)
     with open(filename, "r") as f:
         sql: str = f.read()
 
+    print("Executing", filename)
     cursor.execute(sql)
+    print("Finished execution of", filename)
 
 
 def main() -> None:
@@ -26,7 +29,7 @@ def main() -> None:
     execute_sql_file(cursor, "./move.sql")
     execute_sql_file(cursor, "./metadata.sql")
     execute_sql_file(cursor, "./pokedex.sql")
-    for p in ["2025-07", "2025-08", "2025-09", "2025-10"]:
+    for p in ["2025-07", "2025-08", "2025-09"]:
         for m in ["Ubers", "UU", "RU", "NU", "PU", "ZU"]:
             execute_sql_file(cursor, f"./stats_{p}_{m}_0.sql")
             execute_sql_file(cursor, f"./stats_{p}_{m}_1760.sql")

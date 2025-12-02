@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DOWNLOAD_PATH="$SCRIPT_DIR/../../data/smogon_data/"
 SMOGUN_URL="https://www.smogon.com/stats/"
 
-months=("07" "08" "09" "10")
+months=("07" "08" "09")
 tiers=("ubers" "ou" "uu" "ru" "nu" "pu" "zu")
 elos_all=("0" "1760") # valid for all tiers except OU
 elos_ou=("0" "1825") # valid for OU

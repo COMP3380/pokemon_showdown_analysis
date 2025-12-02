@@ -318,7 +318,7 @@ def main() -> None:
     generate_pokedex(
         "../../data/showdown_data_processed/pokedex.json", "./pokedex.sql")
 
-    for p in ["2025-07", "2025-08", "2025-09", "2025-10"]:
+    for p in ["2025-07", "2025-08", "2025-09"]:
         for m in ["Ubers", "UU", "RU", "NU", "PU", "ZU"]:
             generate_smogon_stats(
                 p, m, 0, f"../../data/smogon_data/{p[-2:]}/gen9{m.lower()}-0.json")
