@@ -1,3 +1,4 @@
+INSERT INTO Item (id, name) VALUES ('nothing', 'No Item');
 INSERT INTO Item (id, name) VALUES ('abilityshield', 'Ability Shield');
 INSERT INTO Item (id, name) VALUES ('abomasite', 'Abomasite');
 INSERT INTO Item (id, name) VALUES ('absolite', 'Absolite');

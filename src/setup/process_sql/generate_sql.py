@@ -37,6 +37,11 @@ def generate_item(source: str, dest: str) -> None:
 
     items: dict[str, dict[str, str]] = data["items"]
 
+    # Smogon compability
+    queries.append(
+        f"INSERT INTO Item (id, name) VALUES ('nothing', 'No Item');"
+    )
+
     for i in items:
         items[i]['name'] = items[i]['name'].replace("'", "''")
         queries.append(
@@ -78,6 +83,11 @@ def generate_move(source: str, dest: str) -> None:
         data: dict = json.load(f)
 
     moves: dict[str, dict[str, str | int | bool]] = data["moves"]
+
+    # Smogon compability
+    queries.append(
+        f"INSERT INTO MOVE (id, name, type, power, category, pp, accuracy) VALUES ('', 'Struggle', 'Normal', 50, 'Physical', 1, NULL);"
+    )
 
     for m in moves:
         acc: str = "NULL" if moves[m]["accuracy"] is True else str(
@@ -204,6 +214,95 @@ def generate_pokedex(source: str, dest: str) -> None:
     print("Finished writing Pokemon, PokemonHasAbility and PokemonLearnsMove queries into", dest)
 
 
+def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) -> None:
+    queries: list[str] = []
+
+    dest: str = f"./stats_{period}_{metagame}_{cutoff}.sql"
+    mpc: str = f"'{metagame}', '{period}', {cutoff}"
+
+    with open(source, "r") as f:
+        data: dict = json.load(f)
+
+    stats: dict[str, int | list[int] | dict[str, float]] = data["data"]
+
+    for p in stats:
+        pokemon: str = p.replace("'", "").replace(
+            "-", "").replace("(", "").replace(")", "")
+
+        # RawPokemonCount
+        rawCount: int = stats[p]["Raw count"]
+        numberPlayers, topGXE, p99thGXE, p95thGXE = stats[p]["Viability Ceiling"]
+        queries.append(
+            f"INSERT INTO RawPokemonCount (metagame, period, pokemon, rawCount, numberPlayers, topGXE, p99thGXE, p95thGXE) VALUES ('{metagame}', '{period}', '{pokemon}', {rawCount}, {numberPlayers}, {topGXE}, {p99thGXE}, {p95thGXE})")
+
+        # PokemonUsage
+        pusage: float = stats[p]["usage"]
+        queries.append(
+            f"INSERT INTO PokemonUsage (metagame, period, cutoff, pokemon, usage) VALUES ({mpc}, '{pokemon}', {pusage});")
+
+        # AbilityUsage
+        for a in stats[p]["Abilities"]:
+            ausage: float = stats[p]["Abilities"][a]
+            queries.append(
+                f"INSERT INTO AbilityUsage (metagame, period, cutoff, pokemon, ability, usage) VALUES ({mpc}, '{pokemon}', '{a}', {ausage});")
+
+        # ItemUsage
+        for i in stats[p]["Items"]:
+            iusage: float = stats[p]["Items"][i]
+            queries.append(
+                f"INSERT INTO ItemUsage (metagame, period, cutoff, pokemon, item, usage) VALUES ({mpc}, '{pokemon}', '{i}', {iusage});"
+            )
+
+        # SpreadUsage
+        for s in stats[p]["Spreads"]:
+            susage: float = stats[p]["Spreads"][s]
+            queries.append(
+                f"INSERT INTO SpreadUsage (metagame, period, cutoff, pokemon, spread, usage) VALUES ({mpc}, '{pokemon}', '{s}', {susage});"
+            )
+
+        # MoveUsage
+        for m in stats[p]["Moves"]:
+            musage: float = stats[p]["Moves"][m]
+            queries.append(
+                f"INSERT INTO MoveUsage (metagame, period, cutoff, pokemon, move, usage) VALUES ({mpc}, '{pokemon}', '{m}', {musage});"
+            )
+
+        # TeraUsage
+        for t in stats[p]["Tera Types"]:
+            tname: str = t.capitalize()
+            tusage: float = stats[p]["Tera Types"][t]
+            queries.append(
+                f"INSERT INTO TeraUsage (metagame, period, cutoff, pokemon, type, usage) VALUES ({mpc}, '{pokemon}', '{tname}', {tusage});"
+            )
+
+        # TeammateUsage
+        if "empty" in stats[p]["Teammates"]:
+            del stats[p]["Teammates"]["empty"]
+        for t in stats[p]["Teammates"]:
+            pokemonTeammate: str = t.replace("'", "").replace(
+                "-", "").replace("(", "").replace(")", "")
+            teammateUsage: float = stats[p]["Teammates"][t]
+            queries.append(
+                f"INSERT INTO TeammateUsage (metagame, period, cutoff, pokemonCurrent, pokemonTeammate, usage) VALUES ({mpc}, '{pokemon}', '{pokemonTeammate}', {teammateUsage});"
+            )
+
+        # CheckAndCounter
+        for c in stats[p]["Checks and Counters"]:
+            pokemonOpposing: str = t.replace("'", "").replace(
+                "-", "").replace("(", "").replace(")", "")
+            occurrence, koRate, switchRate = stats[p]["Checks and Counters"][c]
+            queries.append(
+                f"INSERT INTO CheckAndCounter (metagame, period, cutoff, pokemonCurrent, pokemonOpposing, occurrence, koRate, switchRate) VALUES ({mpc}, '{pokemon}', '{pokemonOpposing}', {occurrence}, {koRate}, {switchRate});"
+            )
+
+    with open(dest, "w") as f:
+        for q in queries:
+            # print(q)
+            f.write(q.strip() + "\n")
+
+    print("Finished writing stats into", dest)
+
+
 def main() -> None:
     generate_type(
         "../../data/showdown_data_processed/typechart.json", "./type.sql")
@@ -216,6 +315,8 @@ def main() -> None:
     generate_metadata("./metadata.sql")
     generate_pokedex(
         "../../data/showdown_data_processed/pokedex.json", "./pokedex.sql")
+    generate_smogon_stats("2025-10", "ZU", 1760,
+                          "../../data/smogon_data/10/gen9zu-1760.json")
 
 
 if __name__ == "__main__":
