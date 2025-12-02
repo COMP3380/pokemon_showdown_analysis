@@ -24,7 +24,7 @@ class ItemsP2(Screen):
     @on(ScreenResume)
     def on_screen_resume(self):
         l1 = self.query_one("#l1", Label)
-        l1.update(f"Selected: {getattr(self.app, "item")}")
+        l1.update(f"Selected: {getattr(self.app, 'item')}")
 
     def action_menu(self):
         self.app.switch_screen("menu")
