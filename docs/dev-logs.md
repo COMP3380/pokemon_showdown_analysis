@@ -40,3 +40,20 @@
   * Downloads to src/data/smogon_data
   * Files are categorised using directories based on year and month
 * Determined data to cut to fit under 300MB limit
+
+## 11/28/2025 (Peter)
+
+* Initialized `pymssql` script to upload data to uranium
+* Refactored some tables' FK `ON DELETE` constraints to be SQL Server-compliant
+* Generated SQL statements for all table deletion and creation
+* Generated `INSERT` statements for Type, TypeEffectiveness, Ability, Item, Move
+
+## 12/1/2025 (Peter)
+
+* Refactored some table attributes to be more reflective of data:
+  * Removed `form` attribute from Pokemon
+  * `power` attribute in Move can be 0
+  * Allowed empty Pokemon id
+* Wrestled with aligning Showdown and Smogon data for FKs
+* Finalized all SQL statements to populate tables
+* Uploaded all data to `uranium`
