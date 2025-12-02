@@ -40,3 +40,9 @@
   * Downloads to src/data/smogon_data
   * Files are categorised using directories based on year and month
 * Determined data to cut to fit under 300MB limit
+
+## 12/01/2025 (Connor)
+
+* Made the Items Page
+  * Connects to MS SQL Database
+  * Enter to select the highlighted row
