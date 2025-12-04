@@ -39,25 +39,25 @@ class FilterableTable(Vertical):
     class FilterChanged(Message):
         """Custom message sent when the user types in the input."""
 
-        def __init__(self, value: str) -> None:
-            self.value = value
+        def __init__(self, the_id, value: str) -> None:
             super().__init__()
+            self.value = value
+            self.id = the_id
 
     def compose(self) -> ComposeResult:
-        yield DataTable()
+        yield DataTable(id="table")
         yield Input(placeholder="Search by name...", id="search")
 
     def on_mount(self) -> None:
-        table = self.query_one(DataTable)
-        # Set row cursor
-        table.cursor_type = "row"
+        self.table = self.query_one("#table", DataTable)
+        self.table.cursor_type = "row"
 
     @on(Input.Changed)
     def on_input_changed(self, event: Input.Changed) -> None:
         # Stop the event from bubbling up as a generic Input.Changed
         event.stop()
         # Send the custom message with the specific search value
-        self.post_message(self.FilterChanged(event.value))
+        self.post_message(self.FilterChanged(self.id, event.value))
 
     def render_data(self, headers: list[str], rows: list[tuple]) -> None:
         """
@@ -66,25 +66,24 @@ class FilterableTable(Vertical):
             headers: A list of column names
             rows: A list of tuples containing the data
         """
-        table = self.query_one(DataTable)
-        table.clear(columns=True)
-        table.add_columns(*headers)
-        table.add_rows(rows)
+        self.table.clear(columns=True)
+        self.table.add_columns(*headers)
+        self.table.add_rows(rows)
 
     def action_cursor_down(self):
-        self.query_one(DataTable).action_cursor_down()
+        self.table.action_cursor_down()
 
     def action_cursor_up(self):
-        self.query_one(DataTable).action_cursor_up()
+        self.table.action_cursor_up()
 
     def action_page_down(self):
-        self.query_one(DataTable).action_page_down()
+        self.table.action_page_down()
 
     def action_page_up(self):
-        self.query_one(DataTable).action_page_up()
+        self.table.action_page_up()
 
     def action_bottom(self):
-        self.query_one(DataTable).action_scroll_bottom()
+        self.table.action_scroll_bottom()
 
     def action_top(self):
-        self.query_one(DataTable).action_scroll_top()
+        self.table.action_scroll_top()

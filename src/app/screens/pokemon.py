@@ -69,7 +69,7 @@ class Pokemon(Screen):
 
             # Get the highlighted row in the table
             table = self.query_one(FilterableTable)
-            data_table = table.query_one(DataTable)
+            data_table = table.query_one("#table", DataTable)
             row_index = data_table.cursor_row
 
             # Set the global variable to the selection and change pages
