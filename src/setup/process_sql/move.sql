@@ -1,3 +1,4 @@
+INSERT INTO MOVE (id, name, type, power, category, pp, accuracy) VALUES ('', 'Struggle', 'Normal', 50, 'Physical', 1, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('10000000voltthunderbolt', '10,000,000 Volt Thunderbolt', 'Electric', 195, 'Special', 1, NULL);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('absorb', 'Absorb', 'Grass', 20, 'Special', 25, 100);
 INSERT INTO Move (id, name, type, power, category, pp, accuracy) VALUES ('accelerock', 'Accelerock', 'Rock', 40, 'Physical', 20, 100);

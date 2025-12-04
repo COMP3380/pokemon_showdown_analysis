@@ -55,7 +55,7 @@ Stores data about Pokémon moves. As a convention, `accuracy = NULL` is equivale
 
 ```sql
 CREATE TABLE Move (
-  id VARCHAR(255) PRIMARY KEY CHECK(id <> ''),
+  id VARCHAR(255) PRIMARY KEY,
   name VARCHAR(255) NOT NULL CHECK(name <> ''),
   type VARCHAR(255) NOT NULL REFERENCES Type(name) ON DELETE CASCADE,
   power INTEGER NOT NULL CHECK(power >= 0),
