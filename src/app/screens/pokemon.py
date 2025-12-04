@@ -28,8 +28,8 @@ class Pokemon(Screen):
         yield Footer()
 
     def on_mount(self):
-        self.run_query("") # get initial data
         self.rows = []
+        self.run_query("") # get initial data
 
     def action_menu(self):
         self.app.switch_screen("menu")

@@ -54,6 +54,7 @@ class PokemonStats(Screen):
         self.pokemon = getattr(self.app, "stat_pokemon")
         l1 = self.query_one("#msg", Static)
         l1.update(f"""Seeing all usage stats for: Pokemon: {self.pokemon}, Period: {self.period}, Metagame: {self.metagame}, Cutoff: {self.cutoff}""")
+        self.rows = []
         self.load_ability_usage("")
         self.load_item_usage("")
         self.load_move_usage("")
@@ -61,9 +62,6 @@ class PokemonStats(Screen):
         self.load_tera_usage("")
         self.load_teammate_usage("")
         self.load_check_and_counter("")
-
-    def on_mount(self):
-        self.rows = []
 
     def action_menu(self):
         self.app.switch_screen("menu")

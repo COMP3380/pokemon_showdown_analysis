@@ -38,11 +38,9 @@ class PokemonP2(Screen):
         l1.update(f"Seeing Abilities for: {self.pokemon}")
         l2 = self.query_one("#msg2", Static)
         l2.update(f"Seeing Moves for: {self.pokemon}")
+        self.rows = []
         self.load_abilities("") # get initial data
         self.load_moves("") # get initial data
-
-    def on_mount(self):
-        self.rows = []
 
     def action_menu(self):
         self.app.switch_screen("menu")

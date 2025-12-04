@@ -33,10 +33,8 @@ class StatsP2(Screen):
         self.cutoff = getattr(self.app, "cutoff")
         l1 = self.query_one("#msg", Static)
         l1.update(f"Seeing usage stats for: Period: {self.period}, Metagame: {self.metagame}, Cutoff: {self.cutoff}")
-        self.run_query("") # get initial data
-
-    def on_mount(self):
         self.rows = []
+        self.run_query("") # get initial data
 
     def action_menu(self):
         self.app.switch_screen("menu")

@@ -28,8 +28,8 @@ class Moves(Screen):
         yield Footer()
 
     def on_mount(self):
-        self.run_query("") # get initial data
         self.rows = []
+        self.run_query("") # get initial data
 
     def action_menu(self):
         self.app.switch_screen("menu")
@@ -44,7 +44,6 @@ class Moves(Screen):
 
     def run_query(self, search_term: str):
         sql = "SELECT id, name, type, power, category, pp, accuracy FROM Move WHERE name LIKE %s"
-        sql = "SELECT * FROM AbilityUsage au JOIN Ability a ON a.id = au.ability WHERE a.name LIKE %s AND au.metagame = 'OU' AND au.cutoff = '1825' AND au.period = '2025-08' ORDER BY a.id DESC"
 
         headers, self.rows = self.app.execute_query(sql, (f"%{search_term}%",))
         widget = self.query_one(FilterableTable)
@@ -58,6 +57,9 @@ class Moves(Screen):
             table = self.query_one(FilterableTable)
             data_table = table.query_one("#table", DataTable)
             row_index = data_table.cursor_row
+            
+            self.log("ASD", data_table)
+            self.log("ASD", row_index)
 
             # Set the global variable to the selection and change pages
             if row_index is not None and len(self.rows) > 0:
