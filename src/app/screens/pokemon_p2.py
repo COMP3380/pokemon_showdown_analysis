@@ -18,12 +18,16 @@ class PokemonP2(Screen):
     #msg {
       margin: 2;
     }
+    #msg2 {
+      margin: 2;
+    }
     """
 
     def compose(self) -> ComposeResult:
         yield Header()
         yield Static("", id="msg")
         yield FilterableTable(id="abilities_table")
+        yield Static("", id="msg2")
         yield FilterableTable(id="moves_table")
         yield Footer()
 
@@ -31,7 +35,9 @@ class PokemonP2(Screen):
     def on_screen_resume(self):
         self.pokemon = getattr(self.app, "pokemon")
         l1 = self.query_one("#msg", Static)
-        l1.update(f"Seeing pokemon that have: {self.pokemon}")
+        l1.update(f"Seeing Abilities for: {self.pokemon}")
+        l2 = self.query_one("#msg2", Static)
+        l2.update(f"Seeing Moves for: {self.pokemon}")
         self.load_abilities("") # get initial data
         self.load_moves("") # get initial data
 

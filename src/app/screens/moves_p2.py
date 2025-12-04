@@ -30,7 +30,7 @@ class MovesP2(Screen):
     def on_screen_resume(self):
         self.move = getattr(self.app, "move")
         l1 = self.query_one("#msg", Static)
-        l1.update(f"Seeing that can learn: {self.move}")
+        l1.update(f"Seeing Pokemon that can learn: {self.move}")
         self.run_query("") # get initial data
 
     def on_mount(self):
