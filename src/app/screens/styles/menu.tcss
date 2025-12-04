@@ -1,4 +1,4 @@
-#menu {
+#menu_screen {
   margin-top: 2;
   layout: grid;
   grid-size: 3;
@@ -6,7 +6,7 @@
   align: center top;
 }
 
-#menu Button {
+#menu_screen Button {
   width: 80%;
   height: 80%;
   border: outer $border;

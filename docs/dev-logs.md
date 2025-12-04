@@ -48,6 +48,14 @@
 * Generated SQL statements for all table deletion and creation
 * Generated `INSERT` statements for Type, TypeEffectiveness, Ability, Item, Move
 
+## 11/29 2015 (Connor)
+
+* Created Stats Page to choose period, metagame, cutoff
+  * Arrow key and Vim bindings to navigate choices
+  * Must choose in order period -> metagame -> cutoff
+* Added "Back" functionality, to go to prev page
+* Added global state, tracks chosen attributes
+
 ## 12/1/2025 (Peter)
 
 * Refactored some table attributes to be more reflective of data:
@@ -57,3 +65,10 @@
 * Wrestled with aligning Showdown and Smogon data for FKs
 * Finalized all SQL statements to populate tables
 * Uploaded all data to `uranium`
+
+## 12/01/2025 (Connor)
+
+* Made the Items Page
+  * Connects to MS SQL Database
+  * Enter to select the highlighted row
+

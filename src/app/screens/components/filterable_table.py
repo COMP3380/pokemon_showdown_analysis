@@ -2,6 +2,7 @@ from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.widgets import Input, DataTable
 from textual.message import Message
+from textual.binding import Binding
 from textual import on
 
 
@@ -25,6 +26,15 @@ class FilterableTable(Vertical):
         dock: bottom;
     }
     """
+
+    BINDINGS = [
+        Binding("j", "cursor_down", "Move down 1 row", show=False),
+        Binding("k", "cursor_up", "Move up 1 row", show=False),
+        Binding("ctrl+d", "page_down", "Move down 1 page", show=False),
+        Binding("ctrl+u", "page_up", "Move up 1 page", show=False),
+        Binding("G", "bottom", "Go to bottom", show=False),
+        Binding("g", "top", "Go to top", show=False),
+    ]
 
     class FilterChanged(Message):
         """Custom message sent when the user types in the input."""
@@ -60,3 +70,21 @@ class FilterableTable(Vertical):
         table.clear(columns=True)
         table.add_columns(*headers)
         table.add_rows(rows)
+
+    def action_cursor_down(self):
+        self.query_one(DataTable).action_cursor_down()
+
+    def action_cursor_up(self):
+        self.query_one(DataTable).action_cursor_up()
+
+    def action_page_down(self):
+        self.query_one(DataTable).action_page_down()
+
+    def action_page_up(self):
+        self.query_one(DataTable).action_page_up()
+
+    def action_bottom(self):
+        self.query_one(DataTable).action_scroll_bottom()
+
+    def action_top(self):
+        self.query_one(DataTable).action_scroll_top()
