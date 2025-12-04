@@ -19,6 +19,18 @@ class PokemonStats(Screen):
     #msg {
       margin: 2;
     }
+    FilterableTable {
+        height: auto;
+        max-height: 10; 
+        min-height: 5; 
+        margin: 2 0;
+    }
+    #ability_usage > #search {
+        display: none;
+    }
+    #ability_usage {
+        height: 5;
+    }
     """
 
     def compose(self) -> ComposeResult:
