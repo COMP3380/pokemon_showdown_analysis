@@ -6,7 +6,6 @@ from screens.moves_p2 import MovesP2
 from screens.pokemon import Pokemon
 from screens.pokemon_p2 import PokemonP2
 from screens.items import Items
-from screens.items_p2 import ItemsP2
 from screens.abilities import Abilities
 from screens.abilities_p2 import AbilitiesP2
 from screens.typechart import Typechart
@@ -23,7 +22,6 @@ class PokiTUI(App):
         "pokemon": Pokemon,
         "pokemon_p2": PokemonP2,
         "items": Items,
-        "items_p2": ItemsP2,
         "abilities": Abilities,
         "abilities_p2": AbilitiesP2,
         "typechart": Typechart,
