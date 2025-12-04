@@ -31,7 +31,7 @@ class Stats(Screen):
                 Option("July", id="07"),
                 Option("August", id="08"),
                 Option("September", id="09"),
-                Option("October", id="10"),
+                Option("October", id="10", disabled=True),
                 Option("November", id="11", disabled=True),
                 Option("December", id="12", disabled=True),
                 id="month",
@@ -102,7 +102,7 @@ class Stats(Screen):
 
             # OU has different cutoffs
             for option in cutoff.options:
-                if event.option.id == "ou":
+                if event.option.id == "OU":
                     if option.id == "1760":
                         option.disabled = True
                     if option.id == "1825":

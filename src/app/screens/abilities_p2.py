@@ -30,11 +30,10 @@ class AbilitiesP2(Screen):
     def on_screen_resume(self):
         self.ability = getattr(self.app, "ability")
         l1 = self.query_one("#msg", Static)
-        l1.update(f"Seeing pokemon that have: {self.ability}")
+        l1.update(f"Seeing pokemon that have ability: {self.ability}")
         self.run_query("") # get initial data
 
     def on_mount(self):
-        self.cursor = getattr(self.app, "cursor") # get the DB connection
         self.rows = []
 
     def action_menu(self):
@@ -49,30 +48,13 @@ class AbilitiesP2(Screen):
         self.run_query(message.value)
 
     def run_query(self, search_term: str):
-        """
-        Connects to DB, gets results, and pushes them into the widget
-        """
-        if not self.cursor:
-            return
+        sql = """
+        SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier 
+        FROM Pokemon p
+        JOIN PokemonHasAbility pa ON pa.pokemon = p.id
+        WHERE pa.ability = %s AND p.name LIKE %s"""
 
-        if search_term:
-            sql = """
-            SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier 
-            FROM Pokemon p
-            JOIN PokemonHasAbility pa ON pa.pokemon = p.id
-            WHERE pa.ability = %s AND p.name LIKE %s"""
-            self.cursor.execute(sql, (self.ability, f"%{search_term}%",))
-        else:
-            sql = """
-            SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier 
-            FROM Pokemon p
-            JOIN PokemonHasAbility pa ON pa.pokemon = p.id
-            WHERE pa.ability = %s"""
-            self.cursor.execute(sql, (self.ability,))
-
-        self.rows = self.cursor.fetchall()
-        headers = [desc[0] for desc in self.cursor.description]
-
+        headers, self.rows = self.app.execute_query(sql, (self.ability, f"%{search_term}%",))
         widget = self.query_one(FilterableTable)
         widget.render_data(headers, self.rows)
 

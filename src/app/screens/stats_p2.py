@@ -36,7 +36,6 @@ class StatsP2(Screen):
         self.run_query("") # get initial data
 
     def on_mount(self):
-        self.cursor = getattr(self.app, "cursor") # get the DB connection
         self.rows = []
 
     def action_menu(self):
@@ -51,11 +50,8 @@ class StatsP2(Screen):
             self.run_query(message.value)
 
     def run_query(self, search_term: str = ""):
-        if not self.cursor:
-            return
-
         sql = """
-        SELECT Pokemon.name, pu.usage, rawCount, p95thGXE, p99thGXE, topGXE
+        SELECT Pokemon.id, Pokemon.name, pu.usage, rawCount, p95thGXE, p99thGXE, topGXE
         FROM PokemonUsage pu
         JOIN Pokemon ON Pokemon.id = pu.pokemon
         JOIN RawPokemonCount rpc ON rpc.pokemon = pu.pokemon
@@ -65,17 +61,8 @@ class StatsP2(Screen):
         AND Pokemon.name LIKE %s
         ORDER BY pu.usage DESC"""
 
-        try:
-            self.cursor.execute(sql, (self.period, self.metagame, self.cutoff, f"%{search_term}%",))
-        except:
-            self.app.connect_db()
-            self.cursor = getattr(self.app, "cursor") # get the DB connection
-            self.cursor.execute(sql, (self.period, self.metagame, self.cutoff, f"%{search_term}%",))
-
-        self.rows = self.cursor.fetchall()
-        headers = [desc[0] for desc in self.cursor.description]
-
-        widget = self.query_one("#t1", FilterableTable)
+        headers, self.rows = self.app.execute_query(sql, (self.period, self.metagame, self.cutoff, f"%{search_term}%",))
+        widget = self.query_one(FilterableTable)
         widget.render_data(headers, self.rows)
 
     def on_key(self, event: events.Key) -> None:
@@ -91,6 +78,6 @@ class StatsP2(Screen):
             if row_index is not None and len(self.rows) > 0:
                 row = data_table.get_row_at(row_index)
 
-                # if table.id == "abilities_table":
-                #     setattr(self.app, "ability", row[0])
-                #     self.app.push_screen("abilities_p2")
+                if table.id == "t1":
+                    setattr(self.app, "stat_pokemon", row[0])
+                    self.app.push_screen("pokemon_stats")

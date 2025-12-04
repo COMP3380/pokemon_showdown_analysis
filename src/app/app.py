@@ -12,6 +12,7 @@ from screens.typechart import Typechart
 from screens.stats import Stats
 from screens.stats_p2 import StatsP2
 from screens.queries import Queries
+from screens.pokemon_stats import PokemonStats
 
 class PokiTUI(App):
     # List of pages/screens that our app will use
@@ -28,6 +29,7 @@ class PokiTUI(App):
         "stats": Stats,
         "stats_p2": StatsP2,
         "queries": Queries,
+        "pokemon_stats": PokemonStats,
     }
 
 
@@ -45,6 +47,7 @@ class PokiTUI(App):
         self.period = ""
         self.metagame = ""
         self.cutoff = ""
+        self.stat_pokemon = ""
 
         # Start at menu screen
         self.push_screen("menu")
@@ -58,6 +61,21 @@ class PokiTUI(App):
             database="cs3380",
         )
         self.cursor = self.conn.cursor()
+
+    def execute_query(self, sql: str, params: tuple = ()):
+        if self.cursor is None:
+            self.connect_db()
+
+        try:
+            self.cursor.execute(sql, params)
+        except pymssql.OperationalError:
+            # Connection probably dead, reconnect
+            self.connect_db()
+            self.cursor.execute(sql, params)
+
+        rows = self.cursor.fetchall()
+        headers = [desc[0] for desc in self.cursor.description]
+        return headers, rows
 
 if __name__ == "__main__":
     PokiTUI().run()

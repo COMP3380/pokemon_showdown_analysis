@@ -28,7 +28,6 @@ class Pokemon(Screen):
         yield Footer()
 
     def on_mount(self):
-        self.cursor = getattr(self.app, "cursor") # get the DB connection
         self.run_query("") # get initial data
         self.rows = []
 
@@ -44,22 +43,9 @@ class Pokemon(Screen):
         self.run_query(message.value)
 
     def run_query(self, search_term: str):
-        """
-        Connects to DB, gets results, and pushes them into the widget
-        """
-        if not self.cursor:
-            return
+        sql = "SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier FROM Pokemon WHERE name LIKE %s"
 
-        if search_term:
-            sql = "SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier FROM Pokemon WHERE name LIKE %s"
-            self.cursor.execute(sql, (f"%{search_term}%",))
-        else:
-            sql = "SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier FROM Pokemon"
-            self.cursor.execute(sql)
-
-        self.rows = self.cursor.fetchall()
-        headers = [desc[0] for desc in self.cursor.description]
-
+        headers, self.rows = self.app.execute_query(sql, (f"%{search_term}%",))
         widget = self.query_one(FilterableTable)
         widget.render_data(headers, self.rows)
 

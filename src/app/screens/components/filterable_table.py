@@ -16,6 +16,7 @@ class FilterableTable(Vertical):
     DEFAULT_CSS = """
     FilterableTable {
         max-height: 48;
+        min-height: 5;
     }
 
     FilterableTable > DataTable {

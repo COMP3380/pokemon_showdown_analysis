@@ -1,6 +1,6 @@
 from textual import on, events
 from textual.app import ComposeResult
-from textual.widgets import Header, Footer, Static, DataTable
+from textual.widgets import Header, Footer, Static, DataTable, Input
 from textual.screen import Screen
 from textual.events import ScreenResume
 from .components.filterable_table import FilterableTable
@@ -42,7 +42,6 @@ class PokemonP2(Screen):
         self.load_moves("") # get initial data
 
     def on_mount(self):
-        self.cursor = getattr(self.app, "cursor") # get the DB connection
         self.rows = []
 
     def action_menu(self):
@@ -59,48 +58,22 @@ class PokemonP2(Screen):
             self.load_moves(message.value)
 
     def load_abilities(self, search_term: str):
-        if not self.cursor:
-            return
+        sql = """
+        SELECT id, name as 'Ability Name' FROM Ability a
+        JOIN PokemonHasAbility pa ON pa.ability = a.id
+        WHERE pa.pokemon = %s AND a.name LIKE %s"""
 
-        if search_term:
-            sql = """
-            SELECT id, name FROM Ability a
-            JOIN PokemonHasAbility pa ON pa.ability = a.id
-            WHERE pa.pokemon = %s AND a.name LIKE %s"""
-            self.cursor.execute(sql, (self.pokemon, f"%{search_term}%",))
-        else:
-            sql = """
-            SELECT id, name FROM Ability a
-            JOIN PokemonHasAbility pa ON pa.ability = a.id
-            WHERE pa.pokemon = %s"""
-            self.cursor.execute(sql, (self.pokemon,))
-
-        self.rows = self.cursor.fetchall()
-        headers = [desc[0] for desc in self.cursor.description]
-
+        headers, self.rows = self.app.execute_query(sql, (self.pokemon, f"%{search_term}%",))
         widget = self.query_one("#abilities_table", FilterableTable)
         widget.render_data(headers, self.rows)
 
     def load_moves(self, search_term: str):
-        if not self.cursor:
-            return
+        sql = """
+        SELECT id, name as 'Move Name', type, power, category, pp, accuracy FROM Move m
+        JOIN PokemonLearnsMove pm ON pm.move = m.id
+        WHERE pm.pokemon = %s AND m.name LIKE %s"""
 
-        if search_term:
-            sql = """
-            SELECT id, name, type, power, category, pp, accuracy FROM Move m
-            JOIN PokemonLearnsMove pm ON pm.move = m.id
-            WHERE pm.pokemon = %s AND m.name LIKE %s"""
-            self.cursor.execute(sql, (self.pokemon, f"%{search_term}%",))
-        else:
-            sql = """
-            SELECT id, name, type, power, category, pp, accuracy FROM Move m
-            JOIN PokemonLearnsMove pm ON pm.move = m.id
-            WHERE pm.pokemon = %s"""
-            self.cursor.execute(sql, (self.pokemon,))
-
-        self.rows = self.cursor.fetchall()
-        headers = [desc[0] for desc in self.cursor.description]
-
+        headers, self.rows = self.app.execute_query(sql, (self.pokemon, f"%{search_term}%",))
         widget = self.query_one("#moves_table", FilterableTable)
         widget.render_data(headers, self.rows)
 

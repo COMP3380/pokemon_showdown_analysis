@@ -34,7 +34,6 @@ class MovesP2(Screen):
         self.run_query("") # get initial data
 
     def on_mount(self):
-        self.cursor = getattr(self.app, "cursor") # get the DB connection
         self.rows = []
 
     def action_menu(self):
@@ -49,30 +48,13 @@ class MovesP2(Screen):
         self.run_query(message.value)
 
     def run_query(self, search_term: str):
-        """
-        Connects to DB, gets results, and pushes them into the widget
-        """
-        if not self.cursor:
-            return
+        sql = """
+        SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier 
+        FROM Pokemon p
+        JOIN PokemonLearnsMove pm ON pm.pokemon = p.id
+        WHERE pm.move = %s AND p.name LIKE %s"""
 
-        if search_term:
-            sql = """
-            SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier 
-            FROM Pokemon p
-            JOIN PokemonLearnsMove pm ON pm.pokemon = p.id
-            WHERE pm.move = %s AND p.name LIKE %s"""
-            self.cursor.execute(sql, (self.move, f"%{search_term}%",))
-        else:
-            sql = """
-            SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier 
-            FROM Pokemon p
-            JOIN PokemonLearnsMove pm ON pm.pokemon = p.id
-            WHERE pm.move = %s"""
-            self.cursor.execute(sql, (self.move,))
-
-        self.rows = self.cursor.fetchall()
-        headers = [desc[0] for desc in self.cursor.description]
-
+        headers, self.rows = self.app.execute_query(sql, (self.move, f"%{search_term}%",))
         widget = self.query_one(FilterableTable)
         widget.render_data(headers, self.rows)
 
