@@ -52,7 +52,7 @@ class PokemonP2(Screen):
         self.app.pop_screen()
 
     @on(FilterableTable.FilterChanged)
-    def handle_ability_filter(self, message: FilterableTable.FilterChanged):
+    def handle_db_filter(self, message: FilterableTable.FilterChanged):
         if message.id == "abilities_table":
             self.load_abilities(message.value)
         elif message.id == "moves_table":

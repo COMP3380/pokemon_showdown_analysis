@@ -33,14 +33,7 @@ class PokiTUI(App):
 
     # On startup, show the user the Menu
     def on_mount(self):
-        # Create DB connection 
-        self.conn = pymssql.connect(
-            server="uranium.cs.umanitoba.ca",
-            user="vuqh1",
-            password="7990597",
-            database="cs3380",
-        )
-        self.cursor = self.conn.cursor()
+        self.connect_db()
 
         # Variables for basic pages
         self.item = ""
@@ -55,6 +48,16 @@ class PokiTUI(App):
 
         # Start at menu screen
         self.push_screen("menu")
+
+    def connect_db(self):
+        # Create DB connection 
+        self.conn = pymssql.connect(
+            server="uranium.cs.umanitoba.ca",
+            user="vuqh1",
+            password="7990597",
+            database="cs3380",
+        )
+        self.cursor = self.conn.cursor()
 
 if __name__ == "__main__":
     PokiTUI().run()

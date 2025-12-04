@@ -22,29 +22,29 @@ class Stats(Screen):
         yield Label("Please select a Period, Metagame, and Cutoff!", id="l1")
         with Horizontal():
             yield VimOptionList(
-                Option("January", id="jan", disabled=True),
-                Option("February", id="feb", disabled=True),
-                Option("March", id="mar", disabled=True),
-                Option("April", id="apr", disabled=True),
-                Option("May", id="may", disabled=True),
-                Option("June", id="jun", disabled=True),
-                Option("July", id="jul"),
-                Option("August", id="aug"),
-                Option("September", id="sep"),
-                Option("October", id="oct"),
-                Option("November", id="nov", disabled=True),
-                Option("December", id="dec", disabled=True),
+                Option("January", id="01", disabled=True),
+                Option("February", id="02", disabled=True),
+                Option("March", id="03", disabled=True),
+                Option("April", id="04", disabled=True),
+                Option("May", id="05", disabled=True),
+                Option("June", id="06", disabled=True),
+                Option("July", id="07"),
+                Option("August", id="08"),
+                Option("September", id="09"),
+                Option("October", id="10"),
+                Option("November", id="11", disabled=True),
+                Option("December", id="12", disabled=True),
                 id="month",
                 disabled=False
             )
             yield VimOptionList(
-                Option("Overused (OU)", id="ou"),
-                Option("Ubers", id="ubers"),
-                Option("UnderUsed (UU)", id="uu"),
-                Option("RarelyUsed (RU)", id="ru"),
-                Option("NeverUsed (NU)", id="nu"),
-                Option("PU", id="pu"),
-                Option("ZU", id="zu"),
+                Option("Overused (OU)", id="OU"),
+                Option("Ubers", id="Ubers"),
+                Option("UnderUsed (UU)", id="UU"),
+                Option("RarelyUsed (RU)", id="RU"),
+                Option("NeverUsed (NU)", id="NU"),
+                Option("PU", id="PU"),
+                Option("ZU", id="ZU"),
                 id="metagame",
                 disabled=True
             )
@@ -90,7 +90,7 @@ class Stats(Screen):
     def choose_month(self, event: OptionList.OptionSelected) -> None:
         if event.option_list.id == "month":
             self.log(f"Selected {event.option.prompt}")
-            setattr(self.app, "period", event.option.id)
+            setattr(self.app, "period", "2025-" + event.option.id)
             self.swap_lists("month", "metagame")
 
         if event.option_list.id == "metagame":
