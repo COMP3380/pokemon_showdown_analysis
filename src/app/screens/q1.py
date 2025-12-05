@@ -167,7 +167,7 @@ class Q1(Screen):
         self.run_analysis()
 
     def run_analysis(self):
-        self.app.push_screen("q1_results")
+        self.app.push_screen(Q1Results())
 
     def swap_lists(self, l1_str, l2_str):
         l1 = self.query_one(f"#{l1_str}", OptionList)
