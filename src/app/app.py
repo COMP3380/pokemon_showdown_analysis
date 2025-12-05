@@ -13,6 +13,8 @@ from screens.stats import Stats
 from screens.stats_p2 import StatsP2
 from screens.queries import Queries
 from screens.pokemon_stats import PokemonStats
+from screens.q1 import Q1, Q1Results
+
 
 class PokiTUI(App):
     # List of pages/screens that our app will use
@@ -30,10 +32,12 @@ class PokiTUI(App):
         "stats_p2": StatsP2,
         "queries": Queries,
         "pokemon_stats": PokemonStats,
+        "q1": Q1,
+        "q1_results": Q1Results
     }
 
-
     # On startup, show the user the Menu
+
     def on_mount(self):
         self.connect_db()
 
@@ -42,7 +46,7 @@ class PokiTUI(App):
         self.ability = ""
         self.move = ""
         self.pokemon = ""
-        
+
         # Variables for stats page
         self.period = ""
         self.metagame = ""
@@ -53,7 +57,7 @@ class PokiTUI(App):
         self.push_screen("menu")
 
     def connect_db(self):
-        # Create DB connection 
+        # Create DB connection
         self.conn = pymssql.connect(
             server="uranium.cs.umanitoba.ca",
             user="vuqh1",
@@ -76,6 +80,7 @@ class PokiTUI(App):
         rows = self.cursor.fetchall()
         headers = [desc[0] for desc in self.cursor.description]
         return headers, rows
+
 
 if __name__ == "__main__":
     PokiTUI().run()
