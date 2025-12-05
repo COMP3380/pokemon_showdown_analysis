@@ -1,9 +1,9 @@
-from textual import on
+from textual import on, events
 from textual.app import ComposeResult
-from textual.widgets import Header, Footer, Button, Label
-from textual.containers import Container
+from textual.widgets import Header, Footer, Static, DataTable
 from textual.screen import Screen
 from textual.events import ScreenResume
+from .components.filterable_table import FilterableTable
 
 class MovesP2(Screen):
     TITLE = "Moves"
@@ -14,18 +14,60 @@ class MovesP2(Screen):
         ("b", "back", "Back"),
     ]
 
+    DEFAULT_CSS = """
+    #msg {
+      margin: 2;
+    }
+    """
+
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label("", id="l1") 
+        yield Static("", id="msg")
+        yield FilterableTable()
         yield Footer()
 
     @on(ScreenResume)
     def on_screen_resume(self):
-        l1 = self.query_one("#l1", Label)
-        l1.update(f"Selected: {getattr(self.app, 'move')}")
+        self.move = getattr(self.app, "move")
+        l1 = self.query_one("#msg", Static)
+        l1.update(f"Seeing Pokemon that can learn: {self.move}")
+        self.rows = []
+        self.run_query("") # get initial data
 
     def action_menu(self):
         self.app.switch_screen("menu")
 
     def action_back(self):
         self.app.pop_screen()
+
+    @on(FilterableTable.FilterChanged)
+    def handle_db_filter(self, message: FilterableTable.FilterChanged):
+        """This captures the custom message from the widget."""
+        self.run_query(message.value)
+
+    def run_query(self, search_term: str):
+        sql = """
+        SELECT id, name, type1, type2, hp, attack, defense, spattack, spdefense, speed, tier 
+        FROM Pokemon p
+        JOIN PokemonLearnsMove pm ON pm.pokemon = p.id
+        WHERE pm.move = %s AND p.name LIKE %s"""
+
+        headers, self.rows = self.app.execute_query(sql, (self.move, f"%{search_term}%",))
+        widget = self.query_one(FilterableTable)
+        widget.render_data(headers, self.rows)
+
+    def on_key(self, event: events.Key) -> None:
+        if event.key == "enter":
+            self.log("Attempted submission")
+
+            # Get the highlighted row in the table
+            table = self.query_one(FilterableTable)
+            data_table = table.query_one("#table", DataTable)
+            row_index = data_table.cursor_row
+
+            # Set the global variable to the selection and change pages
+            if row_index is not None and len(self.rows) > 0:
+                row = data_table.get_row_at(row_index)
+                setattr(self.app, "pokemon", row[0])
+
+                self.app.push_screen("pokemon_p2")

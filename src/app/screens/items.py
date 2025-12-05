@@ -12,7 +12,6 @@ class Items(Screen):
         ("Ctrl-q", "quit", "Quit"),
         ("m", "menu", "Menu"),
         ("b", "back", "Back"),
-        ("return", "enter", "Select Highlighted Row"),
     ]
 
     DEFAULT_CSS = """
@@ -28,9 +27,8 @@ class Items(Screen):
         yield Footer()
 
     def on_mount(self):
-        self.cursor = getattr(self.app, "cursor") # get the DB connection
-        self.run_query("") # get initial data
         self.rows = []
+        self.run_query("") # get initial data
 
     def action_menu(self):
         self.app.switch_screen("menu")
@@ -44,37 +42,8 @@ class Items(Screen):
         self.run_query(message.value)
 
     def run_query(self, search_term: str):
-        """
-        Connects to DB, gets results, and pushes them into the widget
-        """
-        if not self.cursor:
-            return
+        sql = "SELECT id, name FROM Item WHERE name LIKE %s"
 
-        if search_term:
-            sql = "SELECT id, name FROM Item WHERE name LIKE %s"
-            self.cursor.execute(sql, (f"%{search_term}%",))
-        else:
-            sql = "SELECT id, name FROM Item"
-            self.cursor.execute(sql)
-
-        self.rows = self.cursor.fetchall()
-        headers = [desc[0] for desc in self.cursor.description]
-
+        headers, self.rows = self.app.execute_query(sql, (f"%{search_term}%",))
         widget = self.query_one(FilterableTable)
         widget.render_data(headers, self.rows)
-
-    def on_key(self, event: events.Key) -> None:
-        if event.key == "enter":
-            self.log("Attempted submission")
-
-            # Get the highlighted row in the table
-            table = self.query_one(FilterableTable)
-            data_table = table.query_one(DataTable)
-            row_index = data_table.cursor_row
-
-            # Set the global variable to the selection and change pages
-            if row_index is not None and len(self.rows) > 0:
-                row = data_table.get_row_at(row_index)
-                setattr(self.app, "item", row[0])
-
-                self.app.push_screen("items_p2")

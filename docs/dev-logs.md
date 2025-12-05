@@ -72,3 +72,9 @@
   * Connects to MS SQL Database
   * Enter to select the highlighted row
 
+## 12/04/2025 (Connor)
+
+* Made all extended pages for Pokemon, Moves, Abilities, Stats page 1, Pokemon ALL stats
+* Rerranged code to reconnect to DB upon timeout or connection loss
+* Fixed bug where you couldn't select entry before entering a search query
+
