@@ -5,6 +5,8 @@ from textual.containers import Horizontal
 from textual.widgets.option_list import Option
 from textual.screen import Screen
 from textual.binding import Binding
+from .components.vim_option_list import VimOptionList
+
 
 class Stats(Screen):
     TITLE = "Stats"
@@ -124,11 +126,3 @@ class Stats(Screen):
         l2 = self.query_one(f"#{l2_str}", OptionList)
         l2.disabled = False
         l1.disabled = True
-
-class VimOptionList(OptionList):
-    BINDINGS = [
-        Binding("j", "cursor_down", show=False),
-        Binding("k", "cursor_up", show=False),
-        Binding("l", "select", show=False),
-        Binding("right", "select", show=False),
-    ]
