@@ -14,6 +14,7 @@ from screens.stats_p2 import StatsP2
 from screens.queries import Queries
 from screens.pokemon_stats import PokemonStats
 from screens.q1 import Q1, Q1Results
+from screens.q2 import Q2, Q2Results
 
 
 class PokiTUI(App):
@@ -33,7 +34,9 @@ class PokiTUI(App):
         "queries": Queries,
         "pokemon_stats": PokemonStats,
         "q1": Q1,
-        "q1_results": Q1Results
+        "q1_results": Q1Results,
+        "q2": Q2,
+        "q2_results": Q2Results
     }
 
     # On startup, show the user the Menu
