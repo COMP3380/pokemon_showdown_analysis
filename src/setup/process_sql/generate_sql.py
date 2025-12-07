@@ -1,7 +1,10 @@
 import json
+from pathlib import Path
+SQL_DIR = Path(__file__).resolve().parent  
+RAW_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 
 
-def generate_type(source: str, dest: str) -> None:
+def generate_type(source: Path, dest: Path) -> None:
     queries: list[str] = []
 
     with open(source, "r") as f:
@@ -29,7 +32,7 @@ def generate_type(source: str, dest: str) -> None:
     print("Finished writing Type and TypeEffectiveness queries into", dest)
 
 
-def generate_item(source: str, dest: str) -> None:
+def generate_item(source: Path, dest: Path) -> None:
     queries: list[str] = []
 
     with open(source, "r") as f:
@@ -55,7 +58,7 @@ def generate_item(source: str, dest: str) -> None:
     print("Finished writing Item queries into", dest)
 
 
-def generate_ability(source: str, dest: str) -> None:
+def generate_ability(source: Path, dest: Path) -> None:
     queries: list[str] = []
 
     with open(source, "r") as f:
@@ -76,7 +79,7 @@ def generate_ability(source: str, dest: str) -> None:
     print("Finished writing Ability queries into", dest)
 
 
-def generate_move(source: str, dest: str) -> None:
+def generate_move(source: Path, dest: Path) -> None:
     queries: list[str] = []
 
     with open(source, "r") as f:
@@ -104,7 +107,7 @@ def generate_move(source: str, dest: str) -> None:
     print("Finished writing Move queries into", dest)
 
 
-def generate_metadata(dest: str) -> None:
+def generate_metadata(dest: Path) -> None:
     # hardcoded because i'm lazy
     INSERT_METAGAME: str = "INSERT INTO Metagame (name) VALUES ('{}');"
     INSERT_PERIOD: str = "INSERT INTO Period (id, startDate, endDate) VALUES {};"
@@ -138,7 +141,7 @@ def generate_metadata(dest: str) -> None:
     print("Finished writing Metagame, Period, Cutoff, MetagameAllowsPokemonFrom queries into", dest)
 
 
-def generate_pokedex(source: str, dest: str) -> None:
+def generate_pokedex(source: Path, dest: Path) -> None:
     # more complicated metagame mapping
     METAGAMES: dict[str, str] = {
         "Ubers": "Ubers",
@@ -214,10 +217,10 @@ def generate_pokedex(source: str, dest: str) -> None:
     print("Finished writing Pokemon, PokemonHasAbility and PokemonLearnsMove queries into", dest)
 
 
-def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) -> None:
+def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: Path) -> None:
     queries: list[str] = []
 
-    dest: str = f"./stats_{period}_{metagame}_{cutoff}.sql"
+    dest: Path = SQL_DIR / f"stats_{period}_{metagame}_{cutoff}.sql"
     mpc: str = f"'{metagame}', '{period}', {cutoff}"
 
     with open(source, "r") as f:
@@ -307,27 +310,27 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
 
 def main() -> None:
     generate_type(
-        "../../data/showdown_data_processed/typechart.json", "./type.sql")
+        RAW_DIR / "showdown_data_processed/typechart.json", SQL_DIR / "type.sql")
     generate_item(
-        "../../data/showdown_data_processed/items.json", "./item.sql")
+        RAW_DIR / "showdown_data_processed/items.json", SQL_DIR / "item.sql")
     generate_ability(
-        "../../data/showdown_data_processed/abilities.json", "./ability.sql")
+        RAW_DIR / "showdown_data_processed/abilities.json", SQL_DIR / "ability.sql")
     generate_move(
-        "../../data/showdown_data_processed/moves.json", "./move.sql")
-    generate_metadata("./metadata.sql")
+        RAW_DIR / "showdown_data_processed/moves.json", SQL_DIR / "move.sql")
+    generate_metadata(SQL_DIR / "metadata.sql")
     generate_pokedex(
-        "../../data/showdown_data_processed/pokedex.json", "./pokedex.sql")
+        RAW_DIR / "showdown_data_processed/pokedex.json", SQL_DIR / "pokedex.sql")
 
     for p in ["2025-07", "2025-08", "2025-09"]:
         for m in ["Ubers", "UU", "RU", "NU", "PU", "ZU"]:
             generate_smogon_stats(
-                p, m, 0, f"../../data/smogon_data/{p[-2:]}/gen9{m.lower()}-0.json")
+                p, m, 0, RAW_DIR / f"smogon_data/{p[-2:]}/gen9{m.lower()}-0.json")
             generate_smogon_stats(
-                p, m, 1760, f"../../data/smogon_data/{p[-2:]}/gen9{m.lower()}-1760.json")
+                p, m, 1760, RAW_DIR / f"smogon_data/{p[-2:]}/gen9{m.lower()}-1760.json")
         generate_smogon_stats(
-            p, "OU", 0, f"../../data/smogon_data/{p[-2:]}/gen9ou-0.json")
+            p, "OU", 0, RAW_DIR / f"smogon_data/{p[-2:]}/gen9ou-0.json")
         generate_smogon_stats(
-            p, "OU", 1825, f"../../data/smogon_data/{p[-2:]}/gen9ou-1825.json")
+            p, "OU", 1825, RAW_DIR / f"smogon_data/{p[-2:]}/gen9ou-1825.json")
 
 
 if __name__ == "__main__":
