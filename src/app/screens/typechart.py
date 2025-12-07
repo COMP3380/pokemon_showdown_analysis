@@ -61,6 +61,7 @@ class Typechart(Screen):
         if not df.disabled:
             atk.disabled = False
             df.disabled = True
+            atk.focus() 
 
 
     @on(OptionList.OptionSelected)
@@ -120,7 +121,9 @@ class Typechart(Screen):
 
     def swap_lists(self, l1, l2):
         self.query_one(f"#{l1}", OptionList).disabled = True
-        self.query_one(f"#{l2}", OptionList).disabled = False
+        target = self.query_one(f"#{l2}", OptionList)
+        target.disabled = False
+        target.focus()
         self.query_one("#result_msg", Label).update("")  # Clear previous output
 
 
