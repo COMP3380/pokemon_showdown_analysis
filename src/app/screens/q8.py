@@ -172,17 +172,17 @@ class Q8Results(Screen):
             WHERE (Pokemon.type1 = %s OR Pokemon.type2 = %s)
         ),
 
-        Top5Type2Pokemon AS (
+        Top10Type2Pokemon AS (
             SELECT metagame, pokemon
             FROM RankedType2PokemonUsage
-            WHERE rn <= 5
+            WHERE rn <= 10
         ),
 
         FilteredCounters AS (
             SELECT pokemonOpposing, occurrence, koRate, switchRate
             FROM CheckAndCounter
-            INNER JOIN Top5Type2Pokemon ON CheckAndCounter.pokemonCurrent = Top5Type2Pokemon.pokemon
-            AND CheckAndCounter.metagame = Top5Type2Pokemon.metagame
+            INNER JOIN Top10Type2Pokemon ON CheckAndCounter.pokemonCurrent = Top10Type2Pokemon.pokemon
+            AND CheckAndCounter.metagame = Top10Type2Pokemon.metagame
             INNER JOIN LatestPeriod ON CheckAndCounter.period = LatestPeriod.id
             INNER JOIN HighestCutoffMetagame ON CheckAndCounter.metagame = HighestCutoffMetagame.metagame
             AND CheckAndCounter.cutoff = HighestCutoffMetagame.maxCutoff
