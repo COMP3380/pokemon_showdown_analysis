@@ -67,7 +67,7 @@ class Menu(Screen):
 
     def on_confirmation_dialog_yes(self, msg: ConfirmationDialog.Yes):
         self.log("Confirmed choice")
-        generate_sql.main()
+        generate_and_execute_sql.main()
 
     def on_confirmation_dialog_no(self, msg: ConfirmationDialog.No):
         self.log("Retracted choice")
