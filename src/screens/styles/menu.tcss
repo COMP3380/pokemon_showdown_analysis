@@ -3,11 +3,19 @@
   layout: grid;
   grid-size: 3;
   grid-gutter: 1 1;
-  align: center top;
+  align: center middle;
 }
 
 #menu_screen Button {
   width: 80%;
   height: 80%;
   border: outer $border;
+}
+
+Dialog.invisible {
+    visibility: hidden;
+}
+
+ConfirmationDialog.invisible {
+    visibility: hidden;
 }

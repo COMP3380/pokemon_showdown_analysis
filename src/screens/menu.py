@@ -1,8 +1,12 @@
 from textual import on
 from textual.app import ComposeResult
-from textual.widgets import Header, Footer, Button
+from textual.widgets import Header, Footer, Button, Static
 from textual.containers import Container
 from textual.screen import Screen
+from textual.geometry import Offset
+
+from .components.confirmation_dialog import ConfirmationDialog
+from setup.process_sql import generate_sql, execute_sql
 
 class Menu(Screen):
     TITLE = "Menu"
@@ -49,6 +53,24 @@ class Menu(Screen):
     def action_queries(self): self.app.push_screen("queries")
 
     @on(Button.Pressed, "#repopulate")
-    def action_repopulate(self): self.log("Repopulate selected")
+    def action_repopulate(self): 
+        self.log("Repopulate selected")
+        conf_dialog = ConfirmationDialog()
+        self.mount(conf_dialog)
+        parent_width, parent_height = self.size.width, self.size.height
+        dialog_width, dialog_height = conf_dialog.styles.width.value, conf_dialog.styles.height.value
+        conf_dialog.styles.offset = Offset(
+            (parent_width - dialog_width) // 2,
+            (parent_height - dialog_height) // 2
+        )
+        conf_dialog.focus()
 
+    def on_confirmation_dialog_yes(self, msg: ConfirmationDialog.Yes):
+        self.log("Confirmed choice")
+        generate_sql.main()
+        execute_sql.main()
+
+    def on_confirmation_dialog_no(self, msg: ConfirmationDialog.No):
+        self.log("Retracted choice")
+        pass
 
