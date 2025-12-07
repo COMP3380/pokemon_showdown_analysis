@@ -13,6 +13,15 @@ from screens.stats import Stats
 from screens.stats_p2 import StatsP2
 from screens.queries import Queries
 from screens.pokemon_stats import PokemonStats
+from screens.q1 import Q1, Q1Results
+from screens.q2 import Q2, Q2Results
+from screens.q3 import Q3, Q3Results
+from screens.q4 import Q4, Q4Results
+from screens.q5 import Q5, Q5Results
+from screens.q6 import Q6, Q6Results
+from screens.q7 import Q7, Q7Results
+from screens.q8 import Q8, Q8Results
+
 
 class PokiTUI(App):
     # List of pages/screens that our app will use
@@ -30,10 +39,26 @@ class PokiTUI(App):
         "stats_p2": StatsP2,
         "queries": Queries,
         "pokemon_stats": PokemonStats,
+        "q1": Q1,
+        "q1_results": Q1Results,
+        "q2": Q2,
+        "q2_results": Q2Results,
+        "q3": Q3,
+        "q3_results": Q3Results,
+        "q4": Q4,
+        "q4_results": Q4Results,
+        "q5": Q5,
+        "q5_results": Q5Results,
+        "q6": Q6,
+        "q6_results": Q6Results,
+        "q7": Q7,
+        "q7_results": Q7Results,
+        "q8": Q8,
+        "q8_results": Q8Results,
     }
 
-
     # On startup, show the user the Menu
+
     def on_mount(self):
         self.connect_db()
 
@@ -42,7 +67,7 @@ class PokiTUI(App):
         self.ability = ""
         self.move = ""
         self.pokemon = ""
-        
+
         # Variables for stats page
         self.period = ""
         self.metagame = ""
@@ -53,7 +78,7 @@ class PokiTUI(App):
         self.push_screen("menu")
 
     def connect_db(self):
-        # Create DB connection 
+        # Create DB connection
         self.conn = pymssql.connect(
             server="uranium.cs.umanitoba.ca",
             user="vuqh1",
@@ -76,6 +101,7 @@ class PokiTUI(App):
         rows = self.cursor.fetchall()
         headers = [desc[0] for desc in self.cursor.description]
         return headers, rows
+
 
 if __name__ == "__main__":
     PokiTUI().run()

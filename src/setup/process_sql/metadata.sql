@@ -8,7 +8,6 @@ INSERT INTO Metagame (name) VALUES ('ZU');
 INSERT INTO Period (id, startDate, endDate) VALUES ('2025-07', '2025-07-01 00:00:00.000', '2025-07-31 23:59:59.997');
 INSERT INTO Period (id, startDate, endDate) VALUES ('2025-08', '2025-08-01 00:00:00.000', '2025-08-31 23:59:59.997');
 INSERT INTO Period (id, startDate, endDate) VALUES ('2025-09', '2025-09-01 00:00:00.000', '2025-09-30 23:59:59.997');
-INSERT INTO Period (id, startDate, endDate) VALUES ('2025-10', '2025-10-01 00:00:00.000', '2025-10-31 23:59:59.997');
 INSERT INTO Cutoff (elo) VALUES (0);
 INSERT INTO Cutoff (elo) VALUES (1760);
 INSERT INTO Cutoff (elo) VALUES (1825);
@@ -33,3 +32,4 @@ INSERT INTO MetagameAllowsPokemonFrom (parentMetagame, childMetagame) VALUES ('R
 INSERT INTO MetagameAllowsPokemonFrom (parentMetagame, childMetagame) VALUES ('NU', 'PU');
 INSERT INTO MetagameAllowsPokemonFrom (parentMetagame, childMetagame) VALUES ('NU', 'ZU');
 INSERT INTO MetagameAllowsPokemonFrom (parentMetagame, childMetagame) VALUES ('PU', 'ZU');
+
