@@ -187,6 +187,7 @@ class Q5Results(Screen):
         JOIN Pokemon p2 ON t_out.pokemonTeammate = p2.id
         WHERE t_out.metagame = %s
           AND t_out.cutoff = %s
+          AND t_out.pokemonCurrent < t_out.pokemonTeammate
           AND EXISTS (
               SELECT 1
               FROM TeammateUsage t_in

@@ -177,19 +177,23 @@ class Q4Results(Screen):
             f"Analyzing Underrated Abilities (High: {high_cutoff}, Low: {low_cutoff}) in {metagame}...")
 
         sql = """
-        SELECT TOP (%s) a.id, a.name, ab_out.usage AS low_ladder_usage
+        SELECT TOP (%s) a.id, a.name, AVG(ab_out.usage) AS average_usage
         FROM Ability a
         JOIN AbilityUsage ab_out ON ab_out.ability = a.id
         WHERE ab_out.metagame = %s AND ab_out.period = %s
         AND ab_out.cutoff = %s
         AND a.id IN (
-            SELECT TOP (%s) ab_in.ability
-            FROM AbilityUsage ab_in
-            WHERE ab_in.metagame = ab_out.metagame AND ab_in.period = ab_out.period
-            AND ab_in.cutoff = %s
-            ORDER BY ab_in.usage DESC
+            SELECT ability FROM (
+                SELECT TOP (%s) ab_in.ability AS ability, AVG(ab_in.usage) as av_top_usage
+                FROM AbilityUsage ab_in
+                WHERE ab_in.metagame = ab_out.metagame AND ab_in.period = ab_out.period
+                AND ab_in.cutoff = %s
+                GROUP BY ab_in.ability
+                ORDER BY av_top_usage DESC
+            ) as t
         )
-        ORDER BY ab_out.usage;
+        GROUP BY a.id, a.name
+        ORDER BY average_usage;
         """
 
         try:
@@ -198,7 +202,7 @@ class Q4Results(Screen):
 
             table = self.query_one("#results_table", DataTable)
             table.clear(columns=True)
-            table.add_columns("ID", "Name", "Low Ladder Usage")
+            table.add_columns("ID", "Name", "Average Low Ladder Usage")
             table.add_rows(rows)
             msg.update("Query Completed Successfully.")
 
