@@ -54,13 +54,3 @@ class ConfirmationDialog(Static):
         elif event.button.id == "no":
             self.post_message(self.No())
             self.remove()
-
-    async def on_key(self, event: events.Key):
-        if event.key.lower() == "y":
-            self.post_message(self.Yes())
-            self.remove()
-            event.stop()
-        elif event.key.lower() == "n":
-            self.post_message(self.No())
-            self.remove()
-            event.stop()

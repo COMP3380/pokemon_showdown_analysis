@@ -71,5 +71,3 @@ class Menu(Screen):
 
     def on_confirmation_dialog_no(self, msg: ConfirmationDialog.No):
         self.log("Retracted choice")
-        pass
-

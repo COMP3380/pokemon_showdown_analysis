@@ -11,11 +11,3 @@
   height: 80%;
   border: outer $border;
 }
-
-Dialog.invisible {
-    visibility: hidden;
-}
-
-ConfirmationDialog.invisible {
-    visibility: hidden;
-}
