@@ -22,7 +22,7 @@ class Items(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Static("Search for your desired Item!", id="msg")
+        yield Static("Search for your desired Item! (Selecting one wont do anything here)", id="msg")
         yield FilterableTable()
         yield Footer()
 

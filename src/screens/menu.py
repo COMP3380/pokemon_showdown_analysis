@@ -24,8 +24,15 @@ class Menu(Screen):
         ("r", "repopulate", "Repopulate"),
     ]
 
+    DEFAULT_CSS = """
+    #l1 {
+      margin: 2;
+    }
+    """
+
     def compose(self) -> ComposeResult:
         yield Header()
+        yield Static("Welcome to PokiTUI! See bindings below and use arrow keys (or Vim keys) to navigate tables!. You can use 'Tab' and 'Shift+Tab' to navigate between elements on a page, but using your mouse also works!", id="l1")
         with Container(id="menu_screen"):
             yield Button("Moves", id="moves")
             yield Button("Pokemon", id="pokemon")

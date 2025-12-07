@@ -31,10 +31,14 @@ class PokemonStats(Screen):
     #ability_usage {
         height: 5;
     }
+    #l1 {
+        margin: 2;
+    }
     """
 
     def compose(self) -> ComposeResult:
         yield Header()
+        yield Static("Here are all usage stats for your selected items! Nothing here is selectable, but you can still filter and navigate around! P.S. You can scroll the page down to view all tables.", id="l1")
         with VerticalScroll():
             yield Static("", id="msg")
             yield FilterableTable(id="ability_usage")

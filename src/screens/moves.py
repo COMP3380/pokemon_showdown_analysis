@@ -23,7 +23,7 @@ class Moves(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Static("Search for your desired Move!", id="msg")
+        yield Static("Search for your desired Move! Select one to see more information!", id="msg")
         yield FilterableTable()
         yield Footer()
 

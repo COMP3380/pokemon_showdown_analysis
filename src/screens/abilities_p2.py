@@ -30,7 +30,7 @@ class AbilitiesP2(Screen):
     def on_screen_resume(self):
         self.ability = getattr(self.app, "ability")
         l1 = self.query_one("#msg", Static)
-        l1.update(f"Seeing pokemon that have ability: {self.ability}")
+        l1.update(f"Seeing pokemon that have ability: {self.ability}. Select one to learn more!")
         self.rows = []
         self.run_query("") # get initial data
 

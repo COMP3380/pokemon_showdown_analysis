@@ -1,6 +1,6 @@
 from textual import on
 from textual.app import ComposeResult
-from textual.widgets import Header, Footer, Button, OptionList, Label
+from textual.widgets import Header, Footer, OptionList, Static
 from textual.containers import Horizontal
 from textual.widgets.option_list import Option
 from textual.screen import Screen
@@ -19,9 +19,15 @@ class Stats(Screen):
         Binding("h,left", "prevlist", "Previous OptionList", show=False),
     ]
 
+    DEFAULT_CSS = """
+    #l1 {
+        margin: 2;
+    }
+    """
+
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label("Please select a Period, Metagame, and Cutoff!", id="l1")
+        yield Static("Please select a Period, Metagame, and Cutoff! Use the arrow keys to navigate between columns! (Some options are greyed out because we had to cut a lot of data)", id="l1")
         with Horizontal():
             yield VimOptionList(
                 Option("January", id="01", disabled=True),

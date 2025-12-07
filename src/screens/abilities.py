@@ -23,7 +23,7 @@ class Abilities(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Static("Search for your desired Ability!", id="msg")
+        yield Static("Search for your desired Ability! Select one to see more information!", id="msg")
         yield FilterableTable()
         yield Footer()
 

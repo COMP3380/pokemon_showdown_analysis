@@ -5,6 +5,7 @@ from textual.containers import Horizontal, Container
 from textual.widgets.option_list import Option
 from textual.screen import Screen
 from textual.binding import Binding
+from .components.vim_option_list import VimOptionList
 
 
 class Typechart(Screen):
@@ -46,6 +47,9 @@ class Typechart(Screen):
 
         yield Footer()
 
+    def on_mount(self):
+        df = self.query_one("#defend", OptionList)
+        df.disabled = True
 
     def action_menu(self):
         self.swap_lists("defend", "attack")
@@ -125,12 +129,3 @@ class Typechart(Screen):
         target.disabled = False
         target.focus()
         self.query_one("#result_msg", Label).update("")  # Clear previous output
-
-
-class VimOptionList(OptionList):
-    BINDINGS = [
-        Binding("j", "cursor_down", show=False),
-        Binding("k", "cursor_up", show=False),
-        Binding("l", "select", show=False),
-        Binding("right", "select", show=False),
-    ]

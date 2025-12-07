@@ -23,7 +23,7 @@ class Pokemon(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Static("Search for your desired Pokemon!", id="msg")
+        yield Static("Search for your desired Pokemon! Select one to see more information!", id="msg")
         yield FilterableTable()
         yield Footer()
 

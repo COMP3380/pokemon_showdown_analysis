@@ -12,6 +12,7 @@ class StatsP2(Screen):
         ("Ctrl-q", "quit", "Quit"),
         ("m", "menu", "Menu"),
         ("b", "back", "Back"),
+        ("return", "enter", "Select Highlighted Row"),
     ]
 
     DEFAULT_CSS = """
@@ -32,7 +33,7 @@ class StatsP2(Screen):
         self.metagame = getattr(self.app, "metagame")
         self.cutoff = getattr(self.app, "cutoff")
         l1 = self.query_one("#msg", Static)
-        l1.update(f"Seeing usage stats for: Period: {self.period}, Metagame: {self.metagame}, Cutoff: {self.cutoff}")
+        l1.update(f"Seeing usage stats for: Period: {self.period}, Metagame: {self.metagame}, Cutoff: {self.cutoff}. Please select one to see more data!")
         self.rows = []
         self.run_query("") # get initial data
 
