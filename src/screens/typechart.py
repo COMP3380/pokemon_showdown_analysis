@@ -1,6 +1,6 @@
 from textual import on
 from textual.app import ComposeResult
-from textual.widgets import Header, Footer, Label, OptionList
+from textual.widgets import Header, Footer, OptionList, Static
 from textual.containers import Horizontal, Container
 from textual.widgets.option_list import Option
 from textual.screen import Screen
@@ -23,10 +23,19 @@ class Typechart(Screen):
         "Normal","Fire","Water","Electric","Grass","Ice","Fighting","Poison","Ground",
         "Flying","Psychic","Bug","Rock","Ghost","Dragon","Dark","Steel","Fairy"
     ]
+    
+    DEFAULT_CSS = """
+    #l1 {
+        margin: 2;
+    }
+    #result_msg {
+        margin: 2;
+    }
+    """
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label("Select Attacking Type → Then Select Defending Type!", id="l1")
+        yield Static("Select Attacking Type → Then Select Defending Type!", id="l1")
 
         with Horizontal():
             yield VimOptionList(
@@ -41,7 +50,7 @@ class Typechart(Screen):
 
         # Big result output area
         yield Container(
-            Label("", id="result_msg"),
+            Static("", id="result_msg"),
             id="result_container",
         )
 
@@ -105,7 +114,7 @@ class Typechart(Screen):
             msg = f"Query Error: {e}"
 
         formatted = f"{attack.title()} → {defend.title()} : {msg}"
-        result_label = self.query_one("#result_msg", Label)
+        result_label = self.query_one("#result_msg", Static)
         result_label.update(formatted)
 
         # After showing the result, switch back to picking attacking type
@@ -128,4 +137,4 @@ class Typechart(Screen):
         target = self.query_one(f"#{l2}", OptionList)
         target.disabled = False
         target.focus()
-        self.query_one("#result_msg", Label).update("")  # Clear previous output
+        self.query_one("#result_msg", Static).update("")  # Clear previous output
