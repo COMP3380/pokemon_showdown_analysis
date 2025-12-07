@@ -6,7 +6,7 @@ from textual.screen import Screen
 from textual.geometry import Offset
 
 from .components.confirmation_dialog import ConfirmationDialog
-from setup.process_sql import generate_sql, execute_sql
+from setup.process_sql import generate_and_execute_sql, 
 
 class Menu(Screen):
     TITLE = "Menu"
@@ -68,7 +68,6 @@ class Menu(Screen):
     def on_confirmation_dialog_yes(self, msg: ConfirmationDialog.Yes):
         self.log("Confirmed choice")
         generate_sql.main()
-        execute_sql.main()
 
     def on_confirmation_dialog_no(self, msg: ConfirmationDialog.No):
         self.log("Retracted choice")
