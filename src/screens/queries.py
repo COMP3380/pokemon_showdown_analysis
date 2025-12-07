@@ -11,6 +11,7 @@ class Queries(Screen):
     BINDINGS = [
         ("Ctrl-q", "quit", "Quit"),
         ("m", "menu", "Menu"),
+        ("b", "back", "Back"),
         ("1", "q1", "Base..."),
         ("2", "q2", "Highest..."),
         ("3", "q3", "Stat..."),
@@ -23,6 +24,9 @@ class Queries(Screen):
 
     def action_menu(self):
         self.app.switch_screen("menu")
+
+    def action_back(self):
+        self.app.pop_screen()
 
     def compose(self) -> ComposeResult:
         yield Header()
