@@ -6,7 +6,7 @@ from textual.screen import Screen
 from textual.geometry import Offset
 
 from .components.confirmation_dialog import ConfirmationDialog
-from setup.process_sql import generate_and_execute_sql, 
+from setup.process_sql import generate_and_execute_sql
 
 class Menu(Screen):
     TITLE = "Menu"
