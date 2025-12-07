@@ -3,7 +3,7 @@ SHELL := /bin/bash
 VENV := .venv
 PYTHON := python3
 REQS := requirements.txt
-APP := src/app/app.py
+APP := src/app.py
 DOWNLOAD := src/setup/download
 
 .PHONY: run

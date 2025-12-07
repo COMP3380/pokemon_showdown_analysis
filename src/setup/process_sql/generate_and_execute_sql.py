@@ -1,7 +1,16 @@
+import pymssql
 import json
+from pathlib import Path
+SQL_DIR = Path(__file__).resolve().parent  
+RAW_DIR = Path(__file__).resolve().parent.parent.parent / "data"
+
+SERVER: str = "uranium.cs.umanitoba.ca"
+USER: str = "vuqh1"
+PASSWORD: str = "7990597"
+DATABASE: str = "cs3380"
 
 
-def generate_type(source: str, dest: str) -> None:
+def generate_type(source: Path, dest: Path) -> None:
     queries: list[str] = []
 
     with open(source, "r") as f:
@@ -29,7 +38,7 @@ def generate_type(source: str, dest: str) -> None:
     print("Finished writing Type and TypeEffectiveness queries into", dest)
 
 
-def generate_item(source: str, dest: str) -> None:
+def generate_item(source: Path, dest: Path) -> None:
     queries: list[str] = []
 
     with open(source, "r") as f:
@@ -55,7 +64,7 @@ def generate_item(source: str, dest: str) -> None:
     print("Finished writing Item queries into", dest)
 
 
-def generate_ability(source: str, dest: str) -> None:
+def generate_ability(source: Path, dest: Path) -> None:
     queries: list[str] = []
 
     with open(source, "r") as f:
@@ -76,7 +85,7 @@ def generate_ability(source: str, dest: str) -> None:
     print("Finished writing Ability queries into", dest)
 
 
-def generate_move(source: str, dest: str) -> None:
+def generate_move(source: Path, dest: Path) -> None:
     queries: list[str] = []
 
     with open(source, "r") as f:
@@ -104,7 +113,7 @@ def generate_move(source: str, dest: str) -> None:
     print("Finished writing Move queries into", dest)
 
 
-def generate_metadata(dest: str) -> None:
+def generate_metadata(dest: Path) -> None:
     # hardcoded because i'm lazy
     INSERT_METAGAME: str = "INSERT INTO Metagame (name) VALUES ('{}');"
     INSERT_PERIOD: str = "INSERT INTO Period (id, startDate, endDate) VALUES {};"
@@ -138,7 +147,7 @@ def generate_metadata(dest: str) -> None:
     print("Finished writing Metagame, Period, Cutoff, MetagameAllowsPokemonFrom queries into", dest)
 
 
-def generate_pokedex(source: str, dest: str) -> None:
+def generate_pokedex(source: Path, dest: Path) -> None:
     # more complicated metagame mapping
     METAGAMES: dict[str, str] = {
         "Ubers": "Ubers",
@@ -214,10 +223,10 @@ def generate_pokedex(source: str, dest: str) -> None:
     print("Finished writing Pokemon, PokemonHasAbility and PokemonLearnsMove queries into", dest)
 
 
-def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) -> None:
+def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: Path) -> None:
     queries: list[str] = []
 
-    dest: str = f"./stats_{period}_{metagame}_{cutoff}.sql"
+    dest: Path = SQL_DIR / f"stats_{period}_{metagame}_{cutoff}.sql"
     mpc: str = f"'{metagame}', '{period}', {cutoff}"
 
     with open(source, "r") as f:
@@ -304,31 +313,87 @@ def generate_smogon_stats(period: str, metagame: str, cutoff: int, source: str) 
 
     print("Finished writing stats into", dest)
 
+def execute_sql_file(cursor, filename: Path) -> None:
+    print("Reading", filename)
+    with open(filename, "r") as f:
+        sql: str = f.read()
+
+    print("Executing", filename)
+    cursor.execute(sql)
+    print("Finished execution of", filename)
+
 
 def main() -> None:
+    connection = pymssql.connect(
+        server=SERVER, user=USER, password=PASSWORD, database=DATABASE
+    )
+    cursor = connection.cursor()
+    execute_sql_file(cursor, SQL_DIR / "init.sql")
+
+    # Delete the SQL file after generating it to save space (aviary quota smh)
+    path: Path = SQL_DIR / "type.sql"
     generate_type(
-        "../../data/showdown_data_processed/typechart.json", "./type.sql")
+        RAW_DIR / "showdown_data_processed/typechart.json", path)
+    execute_sql_file(cursor, SQL_DIR / "type.sql")
+    path.unlink(missing_ok=True)
+
+    path = SQL_DIR / "item.sql"
     generate_item(
-        "../../data/showdown_data_processed/items.json", "./item.sql")
+        RAW_DIR / "showdown_data_processed/items.json", path)
+    execute_sql_file(cursor, path)
+    path.unlink(missing_ok=True)
+
+    path = SQL_DIR / "ability.sql"
     generate_ability(
-        "../../data/showdown_data_processed/abilities.json", "./ability.sql")
+        RAW_DIR / "showdown_data_processed/abilities.json", path)
+    execute_sql_file(cursor, path)
+    path.unlink(missing_ok=True)
+
+    path = SQL_DIR / "move.sql"
     generate_move(
-        "../../data/showdown_data_processed/moves.json", "./move.sql")
-    generate_metadata("./metadata.sql")
+        RAW_DIR / "showdown_data_processed/moves.json", path)
+    execute_sql_file(cursor, path)
+    path.unlink(missing_ok=True)
+
+    path = SQL_DIR / "metadata.sql"
+    generate_metadata(path)
+    execute_sql_file(cursor, path)
+    path.unlink(missing_ok=True)
+
+    path = SQL_DIR / "pokedex.sql"
     generate_pokedex(
-        "../../data/showdown_data_processed/pokedex.json", "./pokedex.sql")
+        RAW_DIR / "showdown_data_processed/pokedex.json", path)
+    execute_sql_file(cursor, path)
+    path.unlink(missing_ok=True)
 
     for p in ["2025-07", "2025-08", "2025-09"]:
         for m in ["Ubers", "UU", "RU", "NU", "PU", "ZU"]:
+            path = SQL_DIR / f"stats_{p}_{m}_0.sql"
             generate_smogon_stats(
-                p, m, 0, f"../../data/smogon_data/{p[-2:]}/gen9{m.lower()}-0.json")
-            generate_smogon_stats(
-                p, m, 1760, f"../../data/smogon_data/{p[-2:]}/gen9{m.lower()}-1760.json")
-        generate_smogon_stats(
-            p, "OU", 0, f"../../data/smogon_data/{p[-2:]}/gen9ou-0.json")
-        generate_smogon_stats(
-            p, "OU", 1825, f"../../data/smogon_data/{p[-2:]}/gen9ou-1825.json")
+                p, m, 0, RAW_DIR / f"smogon_data/{p[-2:]}/gen9{m.lower()}-0.json")
+            execute_sql_file(cursor, path)
+            path.unlink(missing_ok=True)
 
+            path = SQL_DIR / f"stats_{p}_{m}_1760.sql"
+            generate_smogon_stats(
+                p, m, 1760, RAW_DIR / f"smogon_data/{p[-2:]}/gen9{m.lower()}-1760.json")
+            execute_sql_file(cursor, path)
+            path.unlink(missing_ok=True)
+
+        path = SQL_DIR / f"stats_{p}_OU_0.sql"
+        generate_smogon_stats(
+            p, "OU", 0, RAW_DIR / f"smogon_data/{p[-2:]}/gen9ou-0.json")
+        execute_sql_file(cursor, path)
+        path.unlink(missing_ok=True)
+
+        path = SQL_DIR / f"stats_{p}_OU_1825.sql"
+        generate_smogon_stats(
+            p, "OU", 1825, RAW_DIR / f"smogon_data/{p[-2:]}/gen9ou-1825.json")
+        execute_sql_file(cursor, path)
+        path.unlink(missing_ok=True)
+
+    connection.commit()
+    connection.close()
 
 if __name__ == "__main__":
     main()
