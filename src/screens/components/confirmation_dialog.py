@@ -38,7 +38,7 @@ class ConfirmationDialog(Static):
         pass
 
     def compose(self) -> ComposeResult:
-        yield Static("Are you sure you want to delete and refresh the entire database? It will take 10-15min. You will know when it is done when this dialog box has disappeared.", id="prompt")
+        yield Static("Are you sure you want to delete and refresh the entire database? It will take about 5 minutes. You will know when it is done when this dialog box has disappeared.", id="prompt")
 
         with Static(classes="buttons"):
             yield Button("Yes", id="yes", variant="success")
