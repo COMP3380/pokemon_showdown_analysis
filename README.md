@@ -8,6 +8,23 @@ Navigate to the main directory with all files and run:
 make
 ```
 
+Immediately the code will download all relevant raw Smogon data, as keeping all
+of this in the repository would make it too large. The Pokemon Showdown raw
+data, however, is already inlcuded in the repository, as we had to manually
+process it. Additionally it is relatively small.
+
+The database comes pre-populated and you can navigate around using bindings
+listed at the bottom of each page, using arrow or Vim keys on tables (such as
+j, k, h, l, g, G, ctrl+d, and ctrl+u), using 'Tab' and 'Shift+Tab' to navigate
+between elements on pages, or using your mouse to click on things or drag
+scrollbars.
+
+Upon choose to "Repopulate", you will be met with a confirmation dialog box.
+Choosing "Yes" will cause deletion and repopulation to begin. You will
+purposefully not being able to interact with the program while this is
+happening. This will take about 5-6 minutes and you will know it is done when
+the dialog box disappears and functionality returns.
+
 ## For Developers
 
 Before running `make`, if you wish to have debug information, first run the
@@ -34,32 +51,3 @@ Examples on similar projects can be found here:
 
 - [Porydex](https://www.porydex.com/)
 - [Smogon stats as SQLite database](https://git.pyrope.net/mbk/smogon-stats) 
-
-### Branches
-
-- The `main` branch is, well, the main branch
-- Do NOT commit directly to `main` unless the change is insignificant
-- DO create a task branch to resolve a specific issue
-- DO make a merge request for that branch to merge into main
-    - If unsure about changes, request a reviewer
-- DO when making a merge request, reference the issue it completes
-
-### Issues
-
-Issues will serve as tasks for us to distribute and complete.
-
-- DO make issue an adequate size (not too big that it cannot be finished in like whole day)
-- DO tag our "Group Project" project in the issue, so it gets added to the tracker
-- DO add adequate information about the task/issue in the description AND title.
-    - how to replicate, steps to take, what's currently happening, how it should be
-- DO add a type to the issue
-- DO set the proper milestone (stage) for the issue
-- DO after creating the issue, add a status for it in the Group Project.
-    - Typically the "Todo" status
-
-To see the task board of all issues/tasks, navigate to Projects -> Group Project
-
-- DO NOT assign more than one task to yourself at a time
-    - unless there are multiple small ones you can complete at once
-    - this is so that other people have more flexibility to choose tasks
-- DO once you've assigned yourself a task, drag it into the "In Progress" column
